@@ -30,7 +30,7 @@ class DefaultPig(Pig):
     shape = pm.Circle(body, radius, (0, 0))
     shape.elasticity = 0.95
     shape.friction = 1
-    shape.collision_type = 0
+    shape.collision_type = 1
     image = pg.image.load("defaultpig.png").convert_alpha()
 
 
@@ -43,5 +43,5 @@ class KingPig(Pig):
     shape = pm.Circle(body, radius, (0, 0))
     shape.elasticity = 0.4
     shape.friction = 2
-    shape.collision_type = 0
+    shape.collision_type = 1
     image = pg.image.load("kingpig.png").convert_alpha()
