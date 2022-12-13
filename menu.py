@@ -1,7 +1,8 @@
-# Здесь меню
+import pygame
 import thorpy
 
-def Background():
+"""
+def background():
     Background_surf = pygame.image.load('Sprites\\backgroung 1200х900.png')
     Background_rect = Background_surf.get_rect(bottomright = (WIDTH, HEIGHT))
     Kold_surf = pygame.image.load('Sprites\\Kold.png')
@@ -21,8 +22,7 @@ def Background():
     screen.blit(text3, (400, 160))
 
 
-def Menu_buttons():
-    global browser
+def menu_buttons():
     button_level_1 = thorpy.make_button("Level 1", func=start_level_1)
     button_level_1.set_size((100,50), None, True)
     button_level_1.set_main_color((255,255,255))
@@ -48,11 +48,16 @@ def Menu_buttons():
     box.blit()
     box.update()
     return menu, box
+"""
 
-  #Вероятно это все надо будет запустить в main.py примерно так
-  #while not finished:
-    #Background()
-    #menu, box = Menu_buttons()
-    #pygame.display.update()
-    #for event in pygame.event.get():
-        #menu.react(event)
+
+class OpeningMenu:
+
+    def __init__(self, screen):
+        self.sc = screen
+
+
+class LevelMenu:
+
+    def __init__(self, screen):
+        self.sc = screen
