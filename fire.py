@@ -7,7 +7,7 @@ pg.init()
 clock = pg.time.Clock()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-WIDTH, HEIGHT = 1200, 800
+WIDTH, HEIGHT = 1200, 600
 
 screen = pg.display.set_mode((WIDTH, HEIGHT))
 space = pm.Space()
@@ -18,8 +18,8 @@ class Game:
     FPS = 60
     finished = False
     level_state = True
-    sling1 = pm.Vec2d(135, 550)
-    sling2 = pm.Vec2d(160, 550)
+    sling1 = pm.Vec2d(135, 412)
+    sling2 = pm.Vec2d(160, 412)
     number_of_birds = 1
     birds_list = [birds.RedBird(700, 700, space)]
     rope_length = 100
@@ -53,8 +53,8 @@ class Game:
         x_mouse, y_mouse = pg.mouse.get_pos()
         cond1 = x_mouse > 80
         cond2 = x_mouse < 250
-        cond3 = y_mouse > 350
-        cond4 = y_mouse < 750
+        cond3 = y_mouse > 262
+        cond4 = y_mouse < 562
         cond5 = pg.mouse.get_pressed()[0]
         return cond1 * cond2 * cond3 * cond4 * cond5
 
