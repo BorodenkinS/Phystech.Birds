@@ -24,8 +24,8 @@
             pg.display.update()
 
 Что должно быть прописано в уровне:
-    sling1 = pm.Vec2d(135, 550)
-    sling2 = pm.Vec2d(160, 550)
+    sling1 = pm.Vec2d(135, 412)
+    sling2 = pm.Vec2d(160, 412)
     number_of_birds = ...
     birds_list = [birds.RedBird(...,..., space)]
     rope_length = 100
@@ -39,9 +39,9 @@ self.mouse_is_up = True
     def mouse_pressed(self):
         x_mouse, y_mouse = pg.mouse.get_pos()
         cond1 = x_mouse > 80
-        cond2 = x_mouse < 250
+        cond2 = x_mouse < 262
         cond3 = y_mouse > 350
-        cond4 = y_mouse < 750
+        cond4 = y_mouse < 562
         cond5 = pg.mouse.get_pressed()[0]
         return cond1 * cond2 * cond3 * cond4 * cond5
 
