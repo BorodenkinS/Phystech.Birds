@@ -43,14 +43,6 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.K_ESCAPE:
                     finished = not finished
-            if type(self.windows[self.game_state]) == OpeningMenu:
-                print("Я начало, я начало")
-            elif type(self.windows[self.game_state]) == LevelMenu:
-                print("Я выбор, я выбор")
-            else:
-                print("Я уровень, я уровень")
-            self.game_state += 1
-        print(self.game_state)
 
         pygame.quit()
 
