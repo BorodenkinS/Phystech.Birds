@@ -21,9 +21,9 @@ class Game:
     sling1 = pm.Vec2d(135, 412)
     sling2 = pm.Vec2d(160, 412)
     number_of_birds = 1
-    birds_list = [birds.RedBird(700, 700, space)]
+    birds_list = [birds.RedBird(700, 700, space, screen)]
     rope_length = 100
-    slings_ends = []
+    slings_end = None
     mouse_is_up = True
 
     def main(self):
@@ -37,15 +37,15 @@ class Game:
                     if (self.mouse_pressed() and self.number_of_birds > 0) or not self.mouse_is_up:
                         self.prepare_to_fire2()
                     else:
-                        self.slings_ends = []
+                        self.slings_end = None
 
             screen.fill(WHITE)
             if self.level_state:
                 for bird in self.birds_list:
-                    bird.draw(screen)
-                if self.slings_ends:
-                    pg.draw.line(screen, (0, 0, 0), (self.slings_ends[0]), (self.sling1), 5)
-                    pg.draw.line(screen, (0, 0, 0), (self.slings_ends[1]), (self.sling2), 5)
+                    bird.draw()
+                if not self.slings_end is None:
+                    pg.draw.line(screen, (0, 0, 0), (self.slings_end), (self.sling1), 5)
+                    pg.draw.line(screen, (0, 0, 0), (self.slings_end), (self.sling2), 5)
             pg.display.update()
 
     def mouse_pressed(self):
@@ -70,8 +70,7 @@ class Game:
         bird_position = self.sling1 - bird_distance * unit
         bird = self.birds_list[self.number_of_birds]
         bird.body.position = bird_position
-        sling1_end = sling2_end = bird_position - unit * bird.size
-        self.slings_ends = [sling1_end, sling2_end]
+        self.slings_end = bird_position - unit * bird.size
 
 
 g = Game()
