@@ -35,7 +35,7 @@ class Bird():
         dynamic_body.velocity = velocity
         dynamic_shape = pm.Shape.copy(self.shape)
         dynamic_shape.body = dynamic_body
-        self.remove(self.space)
+        self.remove()
         self.body = dynamic_body
         self.shape = dynamic_shape
         self.space.add(self.body, self.shape)
