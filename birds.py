@@ -3,7 +3,7 @@ import pygame as pg
 import pymunk.pygame_util
 import math
 
-pg.init()
+
 
 
 def moment_for_triangle(mass, size):
@@ -23,29 +23,31 @@ class Bird():
     moment = None
     launch_status = False
 
-    def __init__(self, x, y, space):
+    def __init__(self, x, y, space, screen):
         self.body.position = pm.Vec2d(x, y)
         space.add(self.body, self.shape)
+        self.screen = screen
+        self.space = space
 
-    def launch(self, velocity, space):
+    def launch(self, velocity):
         dynamic_body = pm.Body(self.mass, self.moment)
         dynamic_body.position = self.body.position
         dynamic_body.velocity = velocity
         dynamic_shape = pm.Shape.copy(self.shape)
         dynamic_shape.body = dynamic_body
-        self.remove(space)
+        self.remove(self.space)
         self.body = dynamic_body
         self.shape = dynamic_shape
-        space.add(self.body, self.shape)
+        self.space.add(self.body, self.shape)
         self.launch_status = True
 
-    def draw(self, screen):
+    def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         self.image = pg.transform.rotate(self.image, angle_degrees)
-        screen.blit(self.image, self.body.position - pm.Vec2d(self.size, self.size))
+        self.screen.blit(self.image, self.body.position - pm.Vec2d(self.size, self.size))
 
-    def remove(self, space):
-        space.remove(self.body, self.shape)
+    def remove(self):
+        self.space.remove(self.body, self.shape)
 
 
 class RedBird(Bird):
@@ -59,8 +61,8 @@ class RedBird(Bird):
     shape.friction = 1
     shape.collision_type = 0
 
-    def __init__(self, x, y, space):
-        super().__init__(x, y, space)
+    def __init__(self, x, y, space, screen):
+        super().__init__(x, y, space, screen)
         self.image = pg.image.load("redbird.png").convert_alpha()
 
 
@@ -76,8 +78,8 @@ class TriangleBird(Bird):
     shape.collision_type = 0
     is_accelerated = False
 
-    def __init__(self, x, y, space):
-        super().__init__(x, y, space)
+    def __init__(self, x, y, space, screen):
+        super().__init__(x, y, space, screen)
         self.image = pg.image.load("trianglebird.png").convert_alpha()
 
     def accelerate(self):
