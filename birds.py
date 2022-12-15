@@ -12,7 +12,7 @@ def moment_for_triangle(mass, size):
     return 7 * size * h ** 3 * mass / 144
 
 
-class Bird():
+class Bird:
     body = None
     shape = None
     image = None
@@ -53,15 +53,15 @@ class RedBird(Bird):
     life = 20
     size = 15
     moment = pm.moment_for_circle(mass, 0, size)
-    body = pm.Body(mass, moment, pm.Body.KINEMATIC)
-    shape = pm.Circle(body, size, (0, 0))
-    shape.elasticity = 0.95
-    shape.friction = 1
-    shape.collision_type = 0
 
     def __init__(self, x, y, space, screen):
-        super().__init__(x, y, space, screen)
+        self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
+        self.shape = pm.Circle(self.body, self.size, (0, 0))
+        self.shape.elasticity = 0.95
+        self.shape.friction = 1
+        self.shape.collision_type = 0
         self.image = pg.image.load("redbird.png").convert_alpha()
+        super().__init__(x, y, space, screen)
 
 
 class TriangleBird(Bird):
@@ -69,16 +69,17 @@ class TriangleBird(Bird):
     life = 10
     size = 14
     moment = moment_for_triangle(mass, size)
-    body = pm.Body(mass, moment, pm.Body.KINEMATIC)
-    shape = pm.Poly(body, ((0, 0), (size / 2, 0.5 * size * 3 ** 0.5), (size, 0)))
-    shape.elasticity = 0.95
-    shape.friction = 1
-    shape.collision_type = 0
+
     is_accelerated = False
 
     def __init__(self, x, y, space, screen):
-        super().__init__(x, y, space, screen)
         self.image = pg.image.load("trianglebird.png").convert_alpha()
+        self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
+        self.shape = pm.Poly(self.body, ((0, 0), (self.size / 2, 0.5 * self.size * 3 ** 0.5), (self.size, 0)))
+        self.shape.elasticity = 0.95
+        self.shape.friction = 1
+        self.shape.collision_type = 0
+        super().__init__(x, y, space, screen)
 
     def accelerate(self):
         if not self.is_accelerated and self.launch_status:
@@ -91,12 +92,12 @@ class BigBird(Bird):
     life = 20
     size = 30
     moment = pm.moment_for_circle(mass, 0, size)
-    body = pm.Body(mass, moment, pm.Body.KINEMATIC)
-    shape = pm.Circle(body, size, (0, 0))
-    shape.elasticity = 0.7
-    shape.friction = 1.2
-    shape.collision_type = 0
 
     def __init__(self, x, y, space, screen):
-        super().__init__(x, y, space, screen)
+        self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
+        self.shape = pm.Circle(self.body, self.size, (0, 0))
+        self.shape.elasticity = 0.7
+        self.shape.friction = 1.2
+        self.shape.collision_type = 0
         self.image = pg.image.load("bigbird.png").convert_alpha()
+        super().__init__(x, y, space, screen)
