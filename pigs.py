@@ -12,13 +12,13 @@ class Pig:
     def __init__(self, x, y, space, screen):
         self.body.position = pm.Vec2d(x, y)
         space.add(self.body, self.shape)
-        self.screen = screen
+        self.sc = screen
         self.space = space
 
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         self.image = pg.transform.rotate(self.image, angle_degrees)
-        self.screen.blit(self.image, self.body.position - pm.Vec2d(self.size, self.size))
+        self.sc.blit(self.image, self.body.position - pm.Vec2d(self.size, self.size))
 
     def remove(self):
         self.space.remove(self.body, self.shape)
