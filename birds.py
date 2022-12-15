@@ -4,8 +4,6 @@ import pymunk.pygame_util
 import math
 
 
-
-
 def moment_for_triangle(mass, size):
     '''Для долбоёпов.
     Осторожно! Интегрирование в уме!
@@ -86,3 +84,19 @@ class TriangleBird(Bird):
         if not self.is_accelerated and self.launch_status:
             self.body.velocity *= 10
             self.is_accelerated = True
+
+
+class BigBird(Bird):
+    mass = 20
+    life = 20
+    size = 30
+    moment = pm.moment_for_circle(mass, 0, size)
+    body = pm.Body(mass, moment, pm.Body.KINEMATIC)
+    shape = pm.Circle(body, size, (0, 0))
+    shape.elasticity = 0.7
+    shape.friction = 1.2
+    shape.collision_type = 0
+
+    def __init__(self, x, y, space, screen):
+        super().__init__(x, y, space, screen)
+        self.image = pg.image.load("bigbird.png").convert_alpha()
