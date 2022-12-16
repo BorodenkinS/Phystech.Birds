@@ -11,16 +11,16 @@ class Sling:
     position = (0, 0)
 
     def __init__(self, screen):
-        self.screen = screen
+        self.sc = screen
         self.sling_1 = pm.Vec2d(135, 412)
         self.sling_2 = pm.Vec2d(160, 412)
         self.sling_length = 100
         self.sling_end = (self.sling_1 + self.sling_2) / 2
 
     def draw(self):
-        self.screen.blit(self.image, self.position)
-        pg.draw.line(self.screen, (0, 0, 0), self.sling_end, self.sling_1, 5)
-        pg.draw.line(self.screen, (0, 0, 0), self.sling_end, self.sling_2, 5)
+        self.sc.blit(self.image, self.position)
+        pg.draw.line(self.sc, (0, 0, 0), self.sling_end, self.sling_1, 5)
+        pg.draw.line(self.sc, (0, 0, 0), self.sling_end, self.sling_2, 5)
 
 
 class Beam:
@@ -42,13 +42,13 @@ class Beam:
 
         self.body.position = pm.Vec2d(x, y)
         space.add(self.body, self.shape)
-        self.screen = screen
+        self.sc = screen
         self.space = space
 
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         self.image = pg.transform.rotate(self.image, angle_degrees)
-        self.screen.blit(self.image, self.body.position - 0.5 * pm.Vec2d(self.lenx, self.leny))
+        self.sc.blit(self.image, self.body.position - 0.5 * pm.Vec2d(self.lenx, self.leny))
 
     def remove(self):
         self.space.remove(self.body, self.shape)
