@@ -16,6 +16,7 @@ class Level:
     pigs_to_remove = []
     birds_to_remove = []
     beams_to_remove = []
+    score = 0
 
     def __init__(self, space, screen):
         self.sc = screen
