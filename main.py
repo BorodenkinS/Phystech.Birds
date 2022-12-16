@@ -4,7 +4,6 @@ import pymunk as pm
 from pymunk import pygame_util
 from menu import *
 from level import *
-from obstructions import *
 from birds import *
 from pigs import *
 from obstructions import *
@@ -35,6 +34,10 @@ class Game:
 
         self.display.set_caption("Phystech.Birds")
 
+        self.space.add_collision_handler(0, 1).post_solve = self.post_solve_bird_pig
+        self.space.add_collision_handler(0, 2).post_solve = self.post_solve_bird_beam
+        self.space.add_collision_handler(1, 2).post_solve = self.pos_solve_pig_beam
+
         pg.init()
 
     def __call__(self, *args, **kwargs):
@@ -51,9 +54,14 @@ class Game:
                 elif self.game_state == 1:  # т.е. состояние уровня
                     if self.mouse_pressed() and self.level.number_of_birds > 0 or not self.level.mouse_is_up:
                         self.prepare_to_fire()
-                    ...
-            self.drawer()
-            self.remover()
+                    if event.type == pg.MOUSEBUTTONUP and not self.level.mouse_is_up:
+                        self.level.mouse_is_up = True
+                        self.shot()
+
+            if self.game_state:
+                self.bird_checker()
+                self.remover()
+                self.drawer()
 
         pg.quit()
 
@@ -62,15 +70,20 @@ class Game:
 
     def drawer(self):
         self.sc.fill(WHITE)
-        if self.game_state == 1:  # т.е. запущен уровень
-            for bird in self.level.birds:
-                bird.draw()
-            for pig in self.level.pigs:
-                pig.draw()
-            for beam in self.level.beams:
-                beam.draw()
-            self.level.sling.draw()
+        for bird in self.level.birds:
+            bird.draw()
+        for pig in self.level.pigs:
+            pig.draw()
+        for beam in self.level.beams:
+            beam.draw()
+        self.level.sling.draw()
         self.display.update()
+
+    def bird_checker(self):
+        for bird in self.level.birds:
+            bird.recalculate_calm_res()
+            if not bird.calm_res:
+                self.level.birds_to_remove.append(bird)
 
     def remover(self):
         for pig in self.level.pigs_to_remove:
@@ -101,13 +114,70 @@ class Game:
             self.level.number_of_birds -= 1
         mouse = pg.mouse.get_pos()
         direction = sling1 - mouse
+        self.level.sling.direction = direction
         mouse_distance = abs(direction)
         unit = direction / mouse_distance
         bird_distance = min(mouse_distance, sling_length)
         bird_position = sling1 - bird_distance * unit
         bird = self.level.birds[self.level.number_of_birds]
         bird.body.position = bird_position
-        self.level.sling.slings_end = bird_position - unit * bird.size
+        self.level.sling.sling_end = bird_position - unit * bird.size
+
+    def shot(self):
+        bird = self.level.birds[self.level.number_of_birds]
+        velocity = self.level.sling.direction * 5
+        bird.launch(velocity)
+        self.level.sling.reset()
+
+    #     обработка у каждого объекта состояния, типа нужно удалять или нет - бред
+    #     проще всего все основные решения принимать во время коллизий
+    #     сейчас реализуется удаление путём списков. Что делать с удалением медленных птичек - хз
+    #     если бы мы делали обработку состояния, то не нужно было бы условий life<=0 и т.п.
+    #     если делать без обработки, но и без списков, то после условий сразу стояли бы remove
+
+    def post_solve_bird_pig(self, arbiter, space, _):
+        # здесь нужно затем продумать, сколько хпшек отнимать в зависимости от силы выстрела
+        # и в зависимости от типа объекта. Это тривиальная задача, поэтому до тестировки не прописана
+
+        ev_bird, ev_pig = arbiter.shapes
+        for pig in self.level.pigs:
+            if pig.body == ev_pig.body:
+                pig.life -= 20
+                if pig.life <= 0:
+                    self.level.pigs_to_remove.append(pig)
+                    self.level.score += pig.cost
+        for bird in self.level.birds[self.level.number_of_birds:]:
+            if bird.body == ev_bird.body:
+                bird.life -= 20
+                if bird.life <= 0:
+                    self.level.birds_to_remove.append(bird)
+
+    def post_solve_bird_beam(self, arbiter, space, _):
+        ev_bird, ev_beam = arbiter.shapes
+        for beam in self.level.beams:
+            if beam.body == ev_beam.body:
+                beam.life -= 20
+                if beam.life <= 0:
+                    self.level.beams_to_remove.append(beam)
+                    self.level.score += beam.cost
+        for bird in self.level.birds[self.level.number_of_birds:]:
+            if bird.body == ev_bird.body:
+                bird.life -= 20
+                if bird.life <= 0:
+                    self.level.birds_to_remove.append(bird)
+
+    def pos_solve_pig_beam(self, arbiter, space, _):
+        ev_pig, ev_beam = arbiter.shapes
+        for beam in self.level.beams:
+            if beam.body == ev_beam.body:
+                beam.life -= 20
+                if beam.life <= 0:
+                    self.level.beams_to_remove.append(beam)
+        for pig in self.level.pigs:
+            if pig.body == ev_pig.body:
+                pig.life -= 20
+            if pig.life <= 0:
+                self.level.pigs_to_remove.append(pig)
 
 
 if __name__ == "__main__":
