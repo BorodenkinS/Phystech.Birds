@@ -9,6 +9,7 @@ pymunk.pygame_util.positive_y_is_up = False
 class Sling:
     image = None
     position = (0, 0)
+    direction = None
 
     def __init__(self, screen):
         self.sc = screen
@@ -21,6 +22,10 @@ class Sling:
         self.sc.blit(self.image, self.position)
         pg.draw.line(self.sc, (0, 0, 0), self.sling_end, self.sling_1, 5)
         pg.draw.line(self.sc, (0, 0, 0), self.sling_end, self.sling_2, 5)
+
+    def reset(self):
+        self.sling_end = (self.sling_1 + self.sling_2) / 2
+        self.direction = None
 
 
 class Beam:
@@ -66,7 +71,7 @@ class WoodBeam(Beam):
         self.shape = pm.Segment(self.body, (0, 0), (self.length, 0), self.width)
         self.shape.elasticity = 1
         self.shape.friction = 1
-        self.shape.collision_type = 0
+        self.shape.collision_type = 2
         self.image = pg.image.load("woodbeamhorizontal.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
 
@@ -83,6 +88,6 @@ class GlassBeam(Beam):
         self.shape = pm.Segment(self.body, (0, 0), (self.length, 0), self.width)
         self.shape.elasticity = 1
         self.shape.friction = 1
-        self.shape.collision_type = 0
+        self.shape.collision_type = 2
         self.image = pg.image.load("glassbeamhorizontal.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
