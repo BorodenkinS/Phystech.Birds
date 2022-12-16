@@ -1,4 +1,6 @@
-import pygame
+
+
+import pygame as pg
 import thorpy
 
 
@@ -7,7 +9,7 @@ class OpeningMenu:
         self.sc = screen
         self.g_s = game_state
         self.w, self.h = self.sc.get_size()
-        self.background_surf = pygame.image.load('Sprites\\bg for menu 1200x600.png')
+        self.background_surf = pg.image.load('Sprites\\bg for menu 1200x600.png')
         self.play_button = thorpy.make_button("Начать игру", func=self.change_menu)
         self.quit_button = thorpy.make_button("Выход", func=quit)
         self.box = thorpy.Box(elements=[self.play_button, self.quit_button])
@@ -39,8 +41,8 @@ class LevelMenu:
         self.sc = screen
         self.g_s = game_state
         self.w, self.h = self.sc.get_size()
-        self.background_surf = pygame.image.load('Sprites\\bg 1 1200x600.png')
-        self.kold_surf = pygame.image.load('Sprites\\Kold.png')
+        self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
+        self.kold_surf = pg.image.load('Sprites\\Kold.png')
         self.level_button_1 = thorpy.make_button("Уровень 1", func=self.choose_option, params={'n': 1})
         self.level_button_2 = thorpy.make_button("Уровень 2", func=self.choose_option, params={'n': 2})
         self.level_button_3 = thorpy.make_button("Уровень 3", func=self.choose_option, params={'n': 3})
@@ -65,12 +67,14 @@ class LevelMenu:
 
     def draw(self):
         self.sc.blit(self.background_surf, self.background_surf.get_rect(bottomright=(self.w, self.h)))
-        self.sc.blit(self.kold_surf, (self.w/2, 0))
+        self.sc.blit(self.kold_surf, (self.w / 2, 0))
         for element in self.menu.get_population():
             element.surface = self.sc
-        self.box.set_center((self.w/2, self.h/2))
+        self.box.set_center((self.w / 2, self.h / 2))
         self.box.blit()
         self.box.update()
 
     def choose_option(self, n):
         self.g_s = n
+
+

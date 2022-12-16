@@ -1,5 +1,5 @@
-import pymunk
-import pygame
+import pymunk as pm
+import pygame as pg
 from birds import *
 from pigs import *
 from obstructions import *
@@ -7,18 +7,32 @@ from beams import *
 
 
 class Level:
-    def __init__(self, space,  screen):
-        self.sc = screen
-        self.space = space
+    
+
+    def __init__(self, space, screen):
         self.birds = []
         self.pigs = []
+        self.beams = []
         self.obstructions = []
+        self.number_of_birds = 0
+        self.mouse_is_up = True
+        self.pigs_to_remove = []
+        self.birds_to_remove = []
+        self.beams_to_remove = []
+        self.score = 0
+        self.sc = screen
+        self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
+        self.sling.position = ...
 
-        self.sc.blit(self.sling.image)
+
+        # self.sc.blit(self.sling.image) больше не нужно
 
     def level1(self):
+        # проработать механизм удаления прошлых объектов.
+        # просто заносить в список на удаление, наверное, недостаточно, ибо функция удаления сработает позже
+        # создания новых объектов
         woodbeam = WoodBeam(905, 750, False, self.space, self.sc)
         self.obstructions.append(woodbeam)
         woodbeam = WoodBeam(995, 750, False, self.space, self.sc)
@@ -51,6 +65,9 @@ class Level:
         self.birds.append(bird)
         bird = RedBird(50, 785, self.space, self.sc)
         self.birds.append(bird)
+        self.number_of_birds = 3
+
+        # beams ...
 
     def level2(self):
         pass

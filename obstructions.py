@@ -9,18 +9,23 @@ pymunk.pygame_util.positive_y_is_up = False
 class Sling:
     image = None
     position = (0, 0)
+    direction = None
 
     def __init__(self, screen):
-        self.screen = screen
+        self.sc = screen
         self.sling_1 = pm.Vec2d(135, 412)
         self.sling_2 = pm.Vec2d(160, 412)
         self.sling_length = 100
         self.sling_end = (self.sling_1 + self.sling_2) / 2
 
     def draw(self):
-        self.screen.blit(self.image, self.position)
-        pg.draw.line(self.screen, (0, 0, 0), self.sling_end, self.sling_1, 5)
-        pg.draw.line(self.screen, (0, 0, 0), self.sling_end, self.sling_2, 5)
+        self.sc.blit(self.image, self.position)
+        pg.draw.line(self.sc, (0, 0, 0), self.sling_end, self.sling_1, 5)
+        pg.draw.line(self.sc, (0, 0, 0), self.sling_end, self.sling_2, 5)
+
+    def reset(self):
+        self.sling_end = (self.sling_1 + self.sling_2) / 2
+        self.direction = None
 
 
 class Beam:
@@ -42,13 +47,13 @@ class Beam:
 
         self.body.position = pm.Vec2d(x, y)
         space.add(self.body, self.shape)
-        self.screen = screen
+        self.sc = screen
         self.space = space
 
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         self.image = pg.transform.rotate(self.image, angle_degrees)
-        self.screen.blit(self.image, self.body.position - 0.5 * pm.Vec2d(self.lenx, self.leny))
+        self.sc.blit(self.image, self.body.position - 0.5 * pm.Vec2d(self.lenx, self.leny))
 
     def remove(self):
         self.space.remove(self.body, self.shape)
@@ -66,7 +71,7 @@ class WoodBeam(Beam):
         self.shape = pm.Segment(self.body, (0, 0), (self.length, 0), self.width)
         self.shape.elasticity = 1
         self.shape.friction = 1
-        self.shape.collision_type = 0
+        self.shape.collision_type = 2
         self.image = pg.image.load("woodbeamhorizontal.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
 
@@ -83,6 +88,6 @@ class GlassBeam(Beam):
         self.shape = pm.Segment(self.body, (0, 0), (self.length, 0), self.width)
         self.shape.elasticity = 1
         self.shape.friction = 1
-        self.shape.collision_type = 0
+        self.shape.collision_type = 2
         self.image = pg.image.load("glassbeamhorizontal.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
