@@ -7,23 +7,25 @@ from beams import *
 
 
 class Level:
-    birds = []
-    pigs = []
-    beams = []
-    obstructions = []
-    number_of_birds = 0
-    mouse_is_up = True
-    pigs_to_remove = []
-    birds_to_remove = []
-    beams_to_remove = []
-    score = 0
+    
 
     def __init__(self, space, screen):
+        self.birds = []
+        self.pigs = []
+        self.beams = []
+        self.obstructions = []
+        self.number_of_birds = 0
+        self.mouse_is_up = True
+        self.pigs_to_remove = []
+        self.birds_to_remove = []
+        self.beams_to_remove = []
+        self.score = 0
         self.sc = screen
         self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
         self.sling.position = ...
+
 
         # self.sc.blit(self.sling.image) больше не нужно
 
