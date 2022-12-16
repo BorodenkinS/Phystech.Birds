@@ -20,6 +20,8 @@ class Bird:
     size = None
     moment = None
     launch_status = False
+    calm_res = 120
+    is_move = True
 
     def __init__(self, x, y, space, screen):
         self.body.position = pm.Vec2d(x, y)
@@ -39,6 +41,8 @@ class Bird:
         self.space.add(self.body, self.shape)
         self.launch_status = True
 
+
+
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         self.image = pg.transform.rotate(self.image, angle_degrees)
@@ -46,6 +50,15 @@ class Bird:
 
     def remove(self):
         self.space.remove(self.body, self.shape)
+
+    def state_checker(self):
+        return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1
+
+    def recalculate_calm_res(self):
+        if self.state_checker():
+            self.calm_res = 120
+        else:
+            self.calm_res = min(self.calm_res - 1, 0)
 
 
 class RedBird(Bird):
