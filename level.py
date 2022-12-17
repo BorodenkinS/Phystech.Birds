@@ -57,6 +57,7 @@ class Level:
                       RedBird(75, 510, self.space, self.sc),
                       RedBird(50, 510, self.space, self.sc),
                       RedBird(25, 510, self.space, self.sc)]
+        self.number_of_birds = 4
         for bird in self.birds:
             bird.draw()
 
@@ -90,6 +91,7 @@ class Level:
                       TriangleBird(75, 511, self.space, self.sc),
                       RedBird(25, 510, self.space, self.sc),
                       RedBird(25, 510, self.space, self.sc)]
+        self.number_of_birds = 4
         for bird in self.birds:
             bird.draw()
 
@@ -134,6 +136,7 @@ class Level:
         self.birds = [BigBird(100, 495, self.space, self.sc),
                       BigBird(65, 495, self.space, self.sc),
                       RedBird(20, 510, self.space, self.sc)]
+        self.number_of_birds = 3
         for bird in self.birds:
             bird.draw()
 
@@ -180,6 +183,7 @@ class Level:
         self.birds = [BigBird(100, 495, self.space, self.sc),
                       BigBird(65, 495, self.space, self.sc),
                       TriangleBird(20, 510, self.space, self.sc)]
+        self.number_of_birds = 3
         for bird in self.birds:
             bird.draw()
 
@@ -220,5 +224,6 @@ class Level:
         self.birds = [BigBird(100, 495, self.space, self.sc),
                       TriangleBird(60, 510, self.space, self.sc),
                       RedBird(20, 510, self.space, self.sc)]
+        self.number_of_birds = 3
         for bird in self.birds:
             bird.draw()
