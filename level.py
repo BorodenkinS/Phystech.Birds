@@ -3,7 +3,6 @@ import pygame as pg
 from birds import *
 from pigs import *
 from obstructions import *
-from beams import *
 
 
 class Level:
@@ -12,7 +11,6 @@ class Level:
     def __init__(self, space, screen):
         self.birds = []
         self.pigs = []
-        self.beams = []
         self.obstructions = []
         self.number_of_birds = 0
         self.mouse_is_up = True
@@ -24,10 +22,8 @@ class Level:
         self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
-        self.sling.position = ...
+        self.sling.position = (120, 510)
 
-
-        # self.sc.blit(self.sling.image) больше не нужно
 
     def level1(self):
         # проработать механизм удаления прошлых объектов.
