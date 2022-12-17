@@ -66,6 +66,7 @@ class Level:
         ground_surf = pygame.image.load('Sprites\\grass.png')
         self.sc.blit(background_surf, background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(ground_surf, ground_surf.get_rect(bottomright=(1200, 600)))
+        self.sling.draw()
 
         self.obstructions = [WoodBeam(905, 475, False, self.space, self.sc),
                              WoodBeam(995, 475, False, self.space, self.sc),
@@ -97,6 +98,7 @@ class Level:
         ground_surf = pygame.image.load('Sprites\\grass.png')
         self.sc.blit(background_surf, background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(ground_surf, ground_surf.get_rect(bottomright=(1200, 600)))
+        self.sling.draw()
 
         self.obstructions = [WoodBeam(905, 475, False, self.space, self.sc),
                              WoodBeam(995, 475, False, self.space, self.sc),
@@ -140,6 +142,7 @@ class Level:
         ground_surf = pygame.image.load('Sprites\\grass.png')
         self.sc.blit(background_surf, background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(ground_surf, ground_surf.get_rect(bottomright=(1200, 600)))
+        self.sling.draw()
 
         self.obstructions = [WoodBeam(905, 475, False, self.space, self.sc),
                              WoodBeam(995, 475, False, self.space, self.sc),
@@ -185,6 +188,7 @@ class Level:
         ground_surf = pygame.image.load('Sprites\\grass.png')
         self.sc.blit(background_surf, background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(ground_surf, ground_surf.get_rect(bottomright=(1200, 600)))
+        self.sling.draw()
 
         self.obstructions = [WoodBeam(905, 475, False, self.space, self.sc),
                              WoodBeam(995, 475, False, self.space, self.sc),
