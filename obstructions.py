@@ -72,7 +72,7 @@ class WoodBeam(Beam):
         self.shape.elasticity = 1
         self.shape.friction = 1
         self.shape.collision_type = 2
-        self.image = pg.image.load("woodbeamhorizontal.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\wood.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
 
 
@@ -89,5 +89,5 @@ class GlassBeam(Beam):
         self.shape.elasticity = 1
         self.shape.friction = 1
         self.shape.collision_type = 2
-        self.image = pg.image.load("glassbeamhorizontal.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\wood.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)

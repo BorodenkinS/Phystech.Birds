@@ -37,7 +37,7 @@ class DefaultPig(Pig):
         self.shape.elasticity = 0.95
         self.shape.friction = 1
         self.shape.collision_type = 1
-        self.image = pg.image.load("defaultpig.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
 
@@ -54,5 +54,5 @@ class KingPig(Pig):
         self.shape.elasticity = 0.4
         self.shape.friction = 2
         self.shape.collision_type = 1
-        self.image = pg.image.load("kingpig.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\smgshnic.png").convert_alpha()
         super().__init__(x, y, space, screen)

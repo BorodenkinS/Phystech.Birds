@@ -41,8 +41,6 @@ class Bird:
         self.space.add(self.body, self.shape)
         self.launch_status = True
 
-
-
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         self.image = pg.transform.rotate(self.image, angle_degrees)
@@ -73,7 +71,7 @@ class RedBird(Bird):
         self.shape.elasticity = 0.95
         self.shape.friction = 1
         self.shape.collision_type = 0
-        self.image = pg.image.load("redbird.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\monchenko.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
 
@@ -86,7 +84,7 @@ class TriangleBird(Bird):
     is_accelerated = False
 
     def __init__(self, x, y, space, screen):
-        self.image = pg.image.load("trianglebird.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\vladimir angemych.png").convert_alpha()
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Poly(self.body, ((0, 0), (self.size / 2, 0.5 * self.size * 3 ** 0.5), (self.size, 0)))
         self.shape.elasticity = 0.95
@@ -112,5 +110,5 @@ class BigBird(Bird):
         self.shape.elasticity = 0.7
         self.shape.friction = 1.2
         self.shape.collision_type = 0
-        self.image = pg.image.load("bigbird.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\ivanov.png").convert_alpha()
         super().__init__(x, y, space, screen)
