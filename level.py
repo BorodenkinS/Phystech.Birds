@@ -11,7 +11,6 @@ class Level:
         self.birds = []
         self.pigs = []
         self.beams = []
-        self.obstructions = []
         self.number_of_birds = 0
         self.mouse_is_up = True
         self.pigs_to_remove = []
@@ -31,13 +30,15 @@ class Level:
         # создания новых объектов
         self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0,578), (1200, 578), 30)
-        self.space.add(self.ground_shape)
-        self.ground_shape.friction = 1
-        self.ground_shape.elasticity = 1
+        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.ground_body.position = pm.Vec2d(600, 585)
+        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
+        self.space.add(self.ground_body, self.ground_shape)
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.3
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(1050, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(1050, 520, False, self.space, self.sc),
                              WoodBeam(1000, 520, False, self.space, self.sc),
                              WoodBeam(1025, 465, True, self.space, self.sc),
                              WoodBeam(920, 520, False, self.space, self.sc),
@@ -56,17 +57,20 @@ class Level:
                       RedBird(50, 555, self.space, self.sc),
                       RedBird(25, 555, self.space, self.sc)]
         self.number_of_birds = 4
+        self.number_of_birds = 4
 
     def level2(self):
         self.background_surf = pg.image.load('Sprites\\bg 2 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
-        self.space.add(self.ground_shape)
-        self.ground_shape.friction = 1
-        self.ground_shape.elasticity = 1
+        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.ground_body.position = pm.Vec2d(600, 585)
+        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
+        self.space.add(self.ground_body, self.ground_shape)
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.3
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              WoodBeam(950, 465, True, self.space, self.sc),
                              WoodBeam(905, 410, False, self.space, self.sc),
@@ -89,13 +93,13 @@ class Level:
     def level3(self):
         self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.jpg')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
+        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 44)
         self.space.add(self.ground_shape)
-        self.ground_shape.friction = 1
-        self.ground_shape.elasticity = 1
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.3
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              GlassBeam(950, 465, True, self.space, self.sc),
                              WoodBeam(890, 520, False, self.space, self.sc),
@@ -130,12 +134,14 @@ class Level:
     def level4(self):
         self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
-        self.space.add(self.ground_shape)
-        self.ground_shape.friction = 1
-        self.ground_shape.elasticity = 1
+        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.ground_body.position = pm.Vec2d(600, 585)
+        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
+        self.space.add(self.ground_body, self.ground_shape)
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.3
         self.ground_shape.collision_type = 3
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              WoodBeam(950, 465, True, self.space, self.sc),
                              GlassBeam(980, 520, False, self.space, self.sc),
@@ -170,13 +176,15 @@ class Level:
     def level5(self):
         self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.jpg')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
-        self.space.add(self.ground_shape)
-        self.ground_shape.friction = 1
-        self.ground_shape.elasticity = 1
+        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.ground_body.position = pm.Vec2d(600, 585)
+        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
+        self.space.add(self.ground_body, self.ground_shape)
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.3
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              WoodBeam(950, 465, True, self.space, self.sc),
                              GlassBeam(980, 520, False, self.space, self.sc),
