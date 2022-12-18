@@ -63,24 +63,26 @@ class Bird:
         self.space.remove(self.body, self.shape)
 
     def velocity_checker(self):
-        return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1 or not self.launch_status
+        return abs(self.body.velocity) > 0.5 or abs(self.body.angular_velocity) > 0.5 or not self.launch_status
 
-    def recalculate_calm_res(self):
-        if self.velocity_checker():
-            self.calm_res = 120
-        else:
-            self.calm_res = min(self.calm_res - 1, 0)
-
-
-    # def recalculate_state(self):
+    # def recalculate_calm_res(self):
     #     if not self.velocity_checker():
-    #         self.body.velocity = pm.Vec2d(0,0)
+    #         self.body.velocity = pm.Vec2d(0, 0)
     #         self.body.angular_velocity = 0
-    #         self.calm_res -= 1
-    #     life_factor = self.life > 0 and self.calm_res > 0
-    #     if not life_factor:
-    #         self.remove()
-    #     return life_factor
+    #         self.calm_res = min(self.calm_res - 1, 0)
+
+
+    def recalculate_state(self):
+        if not self.velocity_checker():
+            self.body.velocity = pm.Vec2d(0,0)
+            self.body.angular_velocity = 0
+            self.body.angle = 0
+            self.calm_res -= 1
+
+        life_factor = self.life > 0 and self.calm_res > 0
+        if not life_factor:
+            self.remove()
+        return life_factor
 
     def bird_function(self):
         pass
@@ -104,8 +106,8 @@ class RedBird(Bird):
 
 class TriangleBird(Bird):
     mass = 4
-    life = 10
-    size = 14
+    life = 5
+    size = 15
     moment = moment_for_triangle(mass, size)
 
     is_accelerated = False
@@ -130,7 +132,7 @@ class TriangleBird(Bird):
 class BigBird(Bird):
     mass = 20
     life = 20
-    size = 10
+    size = 30
     moment = pm.moment_for_circle(mass, 0, size)
 
     def __init__(self, x, y, space, screen):
