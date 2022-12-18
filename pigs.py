@@ -55,6 +55,26 @@ class DefaultPig(Pig):
 
     def __str__(self):
         return f"Def pos={self.body.position}"
+    
+
+class DefaultPig2(Pig):
+    mass = 5
+    life = 20
+    size = 15
+    cost = 1000
+    moment = pm.moment_for_circle(mass, 0, size)
+
+    def __init__(self, x, y, space, screen):
+        self.body = pm.Body(self.mass, self.moment)
+        self.shape = pm.Circle(self.body, self.size, (0, 0))
+        self.shape.elasticity = 0.95
+        self.shape.friction = 1
+        self.shape.collision_type = 1
+        self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
+        super().__init__(x, y, space, screen)
+
+    def __str__(self):
+        return f"Def2 pos={self.body.position}"
 
 
 class LittlePig(Pig):
