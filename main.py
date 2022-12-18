@@ -100,6 +100,9 @@ class Game:
     def drawer(self):
         self.sc.blit(self.level.background_surf, self.level.background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(self.level.ground_surf, self.level.ground_surf.get_rect(bottomright=(1200, 600)))
+        text_score = pg.font.Font(None, 36)
+        score = text_score.render(('SCORE: ' + str(self.level.score)), True, (255,255,0))
+        self.sc.blit(score, (100, 50))
         for bird in self.level.birds:
             bird.draw()
         for pig in self.level.pigs:
