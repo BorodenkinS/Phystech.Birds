@@ -13,8 +13,8 @@ class Sling:
     def __init__(self, screen):
         self.image = pg.image.load("Sprites\\sling.png").convert_alpha()
         self.sc = screen
-        self.sling_1 = pm.Vec2d(135, 502)
-        self.sling_2 = pm.Vec2d(160, 502)
+        self.sling_1 = pm.Vec2d(135, 497)
+        self.sling_2 = pm.Vec2d(160, 497)
         self.sling_length = 100
         self.sling_end = (self.sling_1 + self.sling_2) / 2
 
@@ -59,17 +59,17 @@ class Beam:
     def remove(self):
         self.space.remove(self.body, self.shape)
 
-    # def velocity_checker(self):
-    #     return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1
-    #
-    # def recalculate_state(self):
-    #     if not self.velocity_checker():
-    #         self.body.velocity = pm.Vec2d(0, 0)
-    #         self.body.angular_velocity = 0
-    #     life_factor = self.life > 0
-    #     if not life_factor:
-    #         self.remove()
-    #     return life_factor
+    def velocity_checker(self):
+        return abs(self.body.velocity) > 0.1 or abs(self.body.angular_velocity) > 0.1
+
+    def recalculate_state(self):
+        if not self.velocity_checker():
+            self.body.velocity = pm.Vec2d(0, 0)
+            self.body.angular_velocity = 0
+        life_factor = self.life > 0
+        if not life_factor:
+            self.remove()
+        return life_factor
 
 
 class WoodBeam(Beam):
@@ -81,11 +81,13 @@ class WoodBeam(Beam):
     moment = mass * (width ** 2 + length ** 2) / 12
 
     def __init__(self, x, y, is_hor, space, screen):
-        self.body = pm.Body(self.mass, self.moment)
+        self.body = pm  .Body(self.mass, self.moment)
         self.shape = pm.Poly.create_box(self.body, (self.length, self.width))
+        self.shape.color = (255, 0, 0)
         self.shape.elasticity = 0.1
         self.shape.friction = 3
         self.shape.collision_type = 2
+        self.body.angle = 0
         self.image = pg.image.load("Sprites\\wood.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
 
