@@ -24,6 +24,7 @@ class Bird:
     calm_res = 120
     is_flying = False
     is_flying_times = 0
+    life = None
     launch_status = False
     track = []
 
@@ -46,11 +47,11 @@ class Bird:
         self.is_flying = True
         self.launch_status = True
 
-
     def draw(self):
-        angle_degrees = math.degrees(self.body.angle)
-        # self.image = pg.transform.rotate(self.image, angle_degrees)
-        self.sc.blit(self.image, self.body.position - pm.Vec2d(self.size, self.size))
+
+        angle = math.degrees(self.body.angle)
+        rot_image = pg.transform.rotate(self.image, -angle)
+        self.sc.blit(rot_image, self.body.position - pm.Vec2d(self.size, self.size))
         for pos in self.track:
             pg.draw.circle(self.sc, WHITE, pos, self.size / 8)
         if self.is_flying:
@@ -61,14 +62,25 @@ class Bird:
     def remove(self):
         self.space.remove(self.body, self.shape)
 
-    def state_checker(self):
+    def velocity_checker(self):
         return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1 or not self.launch_status
 
     def recalculate_calm_res(self):
-        if self.state_checker():
+        if self.velocity_checker():
             self.calm_res = 120
         else:
             self.calm_res = min(self.calm_res - 1, 0)
+
+
+    # def recalculate_state(self):
+    #     if not self.velocity_checker():
+    #         self.body.velocity = pm.Vec2d(0,0)
+    #         self.body.angular_velocity = 0
+    #         self.calm_res -= 1
+    #     life_factor = self.life > 0 and self.calm_res > 0
+    #     if not life_factor:
+    #         self.remove()
+    #     return life_factor
 
     def bird_function(self):
         pass
@@ -101,7 +113,8 @@ class TriangleBird(Bird):
     def __init__(self, x, y, space, screen):
         self.image = pg.image.load("Sprites\\vladimir angemych.png").convert_alpha()
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
-        self.shape = pm.Poly(self.body, ((0, 0), (self.size / 2, 0.5 * self.size * 3 ** 0.5), (self.size, 0)))
+        # self.shape = pm.Poly(self.body, ((0, 0), (self.size / 2, 0.5 * self.size * 3 ** 0.5), (self.size, 0)))
+        self.shape = pm.Circle(self.body, self.size, (0, 0))
         self.shape.elasticity = 0.95
         self.shape.friction = 1
         self.shape.collision_type = 0
@@ -117,7 +130,7 @@ class TriangleBird(Bird):
 class BigBird(Bird):
     mass = 20
     life = 20
-    size = 30
+    size = 10
     moment = pm.moment_for_circle(mass, 0, size)
 
     def __init__(self, x, y, space, screen):
