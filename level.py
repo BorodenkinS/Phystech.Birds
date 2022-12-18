@@ -22,7 +22,7 @@ class Level:
         self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
-        self.sling.position = (120, 500)
+        self.sling.position = (120, 490)
 
     def level1(self):
         # проработать механизм удаления прошлых объектов.
