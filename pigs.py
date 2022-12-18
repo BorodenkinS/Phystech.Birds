@@ -8,6 +8,7 @@ class Pig:
     shape = None
     image = None
     size = None
+    life = None
 
     def __init__(self, x, y, space, screen):
         self.body.position = pm.Vec2d(x, y)
@@ -22,6 +23,18 @@ class Pig:
 
     def remove(self):
         self.space.remove(self.body, self.shape)
+
+    def velocity_checker(self):
+        return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1
+
+    def recalculate_state(self):
+        if not self.velocity_checker():
+            self.body.velocity = pm.Vec2d(0, 0)
+            self.body.angular_velocity = 0
+        life_factor = self.life > 0
+        if not life_factor:
+            self.remove()
+        return life_factor
 
 
 class DefaultPig(Pig):
@@ -40,9 +53,9 @@ class DefaultPig(Pig):
         self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-
     def __str__(self):
         return f"Def pos={self.body.position}"
+
 
 class KingPig(Pig):
     mass = 10
@@ -59,7 +72,6 @@ class KingPig(Pig):
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\smgshnic.png").convert_alpha()
         super().__init__(x, y, space, screen)
-
 
     def __str__(self):
         return f"King pos={self.body.position}"
