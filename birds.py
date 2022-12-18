@@ -3,6 +3,8 @@ import pygame as pg
 import pymunk.pygame_util
 import math
 
+WHITE = (255, 255, 255)
+
 
 def moment_for_triangle(mass, size):
     '''Для долбоёпов.
@@ -19,9 +21,11 @@ class Bird:
     mass = None
     size = None
     moment = None
-    launch_status = False
     calm_res = 120
-    is_move = True
+    is_flying = False
+    is_flying_times = 0
+    launch_status = False
+    track = []
 
     def __init__(self, x, y, space, screen):
         self.body.position = pm.Vec2d(x, y)
@@ -39,24 +43,35 @@ class Bird:
         self.body = dynamic_body
         self.shape = dynamic_shape
         self.space.add(self.body, self.shape)
+        self.is_flying = True
         self.launch_status = True
+
 
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
-        self.image = pg.transform.rotate(self.image, angle_degrees)
+        # self.image = pg.transform.rotate(self.image, angle_degrees)
         self.sc.blit(self.image, self.body.position - pm.Vec2d(self.size, self.size))
+        for pos in self.track:
+            pg.draw.circle(self.sc, WHITE, pos, self.size / 8)
+        if self.is_flying:
+            self.is_flying_times += 1
+            if self.is_flying_times % 10 == 0:
+                self.track.append(self.body.position)
 
     def remove(self):
         self.space.remove(self.body, self.shape)
 
     def state_checker(self):
-        return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1
+        return abs(self.body.velocity) > 0.1 and abs(self.body.angular_velocity) > 0.1 or not self.launch_status
 
     def recalculate_calm_res(self):
         if self.state_checker():
             self.calm_res = 120
         else:
             self.calm_res = min(self.calm_res - 1, 0)
+
+    def bird_function(self):
+        pass
 
 
 class RedBird(Bird):
@@ -71,7 +86,7 @@ class RedBird(Bird):
         self.shape.elasticity = 0.95
         self.shape.friction = 1
         self.shape.collision_type = 0
-        self.image = pg.image.load("Sprites\\monchenko.png").convert_alpha()
+        self.image = pg.image.load('Sprites\\monchenko.png').convert_alpha()
         super().__init__(x, y, space, screen)
 
 
@@ -92,9 +107,10 @@ class TriangleBird(Bird):
         self.shape.collision_type = 0
         super().__init__(x, y, space, screen)
 
-    def accelerate(self):
-        if not self.is_accelerated and self.launch_status:
-            self.body.velocity *= 10
+    def bird_function(self):
+        '''acceleration'''
+        if not self.is_accelerated and self.is_flying:
+            self.body.velocity *= 5
             self.is_accelerated = True
 
 
