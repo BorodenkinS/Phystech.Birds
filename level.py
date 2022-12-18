@@ -91,7 +91,7 @@ class Level:
         self.number_of_birds = 4
 
     def level3(self):
-        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.jpg')
+        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 44)
         self.space.add(self.ground_shape)
@@ -132,7 +132,7 @@ class Level:
         self.number_of_birds = 3
 
     def level4(self):
-        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
+        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
         self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
         self.ground_body.position = pm.Vec2d(600, 585)
@@ -174,7 +174,7 @@ class Level:
         self.number_of_birds = 3
 
     def level5(self):
-        self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.jpg')
+        self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
         self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
         self.ground_body.position = pm.Vec2d(600, 585)
