@@ -46,7 +46,6 @@ class Bird:
         self.is_flying = True
         self.launch_status = True
 
-
     def draw(self):
         angle_degrees = math.degrees(self.body.angle)
         # self.image = pg.transform.rotate(self.image, angle_degrees)

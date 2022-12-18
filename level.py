@@ -11,7 +11,6 @@ class Level:
         self.birds = []
         self.pigs = []
         self.beams = []
-        self.obstructions = []
         self.number_of_birds = 0
         self.mouse_is_up = True
         self.pigs_to_remove = []
@@ -19,6 +18,7 @@ class Level:
         self.beams_to_remove = []
         self.flying_bird = None
         self.score = 0
+        self.max_score = 0
         self.sc = screen
         self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
@@ -32,6 +32,8 @@ class Level:
         if self.space.bodies:
             for body in self.space.bodies:
                 self.space.remove(body)
+        self.score = 0
+        self.max_score = 0
 
     def level1(self):
         # проработать механизм удаления прошлых объектов.
@@ -40,13 +42,13 @@ class Level:
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0,578), (1200, 578), 30)
+        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1
         self.ground_shape.elasticity = 1
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(1050, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(1050, 520, False, self.space, self.sc),
                              WoodBeam(1000, 520, False, self.space, self.sc),
                              WoodBeam(1025, 465, True, self.space, self.sc),
                              WoodBeam(920, 520, False, self.space, self.sc),
@@ -64,7 +66,10 @@ class Level:
                       RedBird(75, 555, self.space, self.sc),
                       RedBird(50, 555, self.space, self.sc),
                       RedBird(25, 555, self.space, self.sc)]
+
         self.number_of_birds = 4
+        self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
+                         + 100 * self.number_of_birds
 
     def level2(self):
         self.new_level()
@@ -76,7 +81,7 @@ class Level:
         self.ground_shape.elasticity = 1
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              WoodBeam(950, 465, True, self.space, self.sc),
                              WoodBeam(905, 410, False, self.space, self.sc),
@@ -95,6 +100,8 @@ class Level:
                       RedBird(25, 555, self.space, self.sc),
                       RedBird(25, 555, self.space, self.sc)]
         self.number_of_birds = 4
+        self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
+                         + 100 * self.number_of_birds
 
     def level3(self):
         self.new_level()
@@ -106,7 +113,7 @@ class Level:
         self.ground_shape.elasticity = 1
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              GlassBeam(950, 465, True, self.space, self.sc),
                              WoodBeam(890, 520, False, self.space, self.sc),
@@ -137,6 +144,8 @@ class Level:
                       BigBird(65, 545, self.space, self.sc),
                       RedBird(20, 550, self.space, self.sc)]
         self.number_of_birds = 3
+        self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
+                         + 100 * self.number_of_birds
 
     def level4(self):
         self.new_level()
@@ -147,7 +156,7 @@ class Level:
         self.ground_shape.friction = 1
         self.ground_shape.elasticity = 1
         self.ground_shape.collision_type = 3
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              WoodBeam(950, 465, True, self.space, self.sc),
                              GlassBeam(980, 520, False, self.space, self.sc),
@@ -178,6 +187,8 @@ class Level:
                       BigBird(65, 550, self.space, self.sc),
                       TriangleBird(20, 550, self.space, self.sc)]
         self.number_of_birds = 3
+        self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
+                         + 100 * self.number_of_birds
 
     def level5(self):
         self.new_level()
@@ -189,7 +200,7 @@ class Level:
         self.ground_shape.elasticity = 1
         self.ground_shape.collision_type = 3
 
-        self.obstructions = [WoodBeam(905, 520, False, self.space, self.sc),
+        self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                              WoodBeam(995, 520, False, self.space, self.sc),
                              WoodBeam(950, 465, True, self.space, self.sc),
                              GlassBeam(980, 520, False, self.space, self.sc),
@@ -214,3 +225,5 @@ class Level:
                       TriangleBird(60, 550, self.space, self.sc),
                       RedBird(20, 555, self.space, self.sc)]
         self.number_of_birds = 3
+        self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
+                         + 100*self.number_of_birds
