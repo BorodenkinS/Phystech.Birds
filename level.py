@@ -24,13 +24,22 @@ class Level:
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
         self.sling.position = (120, 500)
+        self.background_surf = None
+        self.ground_surf = None
+        self.ground_shape = None
+
+    def new_level(self):
+        if self.space.bodies:
+            for body in self.space.bodies:
+                self.space.remove(body)
 
     def level1(self):
         # проработать механизм удаления прошлых объектов.
         # просто заносить в список на удаление, наверное, недостаточно, ибо функция удаления сработает позже
         # создания новых объектов
+        self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\grass.png')
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0,578), (1200, 578), 30)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1
@@ -58,8 +67,9 @@ class Level:
         self.number_of_birds = 4
 
     def level2(self):
+        self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 2 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\grass.png')
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1
@@ -87,8 +97,9 @@ class Level:
         self.number_of_birds = 4
 
     def level3(self):
-        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\grass.png')
+        self.new_level()
+        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.png')
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1
@@ -128,8 +139,9 @@ class Level:
         self.number_of_birds = 3
 
     def level4(self):
-        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\grass.png')
+        self.new_level()
+        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.png')
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1
@@ -168,8 +180,9 @@ class Level:
         self.number_of_birds = 3
 
     def level5(self):
-        self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\grass.png')
+        self.new_level()
+        self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.png')
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 30)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1

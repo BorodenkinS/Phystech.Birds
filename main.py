@@ -1,18 +1,14 @@
-import pygame as pg
-import thorpy
-import pymunk as pm
+import pygame
+import pymunk
 from pymunk import pygame_util
-# from menu import *
 from level import *
 from birds import *
 from pigs import *
 from obstructions import *
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
 
 class Game:
+
     WIDTH = 1200
     HEIGHT = 600
     FPS = 60
@@ -24,12 +20,10 @@ class Game:
         pg.display.set_icon(self.icon)
         self.clock = pg.time.Clock()
         self.draw_options = pygame_util.DrawOptions(self.sc)
-        self.space = pm.Space()
+        self.space = pymunk.Space()
         self.space.gravity = 0, 1000
 
-        self.game_state = 5
-        # self.opening_menu = OpeningMenu(self.sc, self.game_state)
-        # self.level_menu = LevelMenu(self.sc, self.game_state)
+        self.game_state = -1
         self.level = Level(self.space, self.sc)
         self.windows = [self.level_menu] + self.level.levels + [self.opening_menu]
 
@@ -41,39 +35,54 @@ class Game:
         self.space.add_collision_handler(0, 3).post_solve = self.post_solve_pig_ground
         self.space.add_collision_handler(1, 3).post_solve = self.post_solve_pig_ground
         self.space.add_collision_handler(2, 3).post_solve = self.post_solve_beam_ground
-        self.start_level_5()
 
         pg.init()
 
     def opening_menu(self):
         self.sc.fill((255, 255, 255))
+        pygame.display.update()
 
     def level_menu(self):
         self.sc.fill((255, 0, 255))
         self.sc.blit(pg.image.load("Sprites\\bg for menu 1200x600.png"), (0, 0))
+        pygame.display.update()
 
     def __call__(self, *args, **kwargs):
         return self.gameloop()
 
     def gameloop(self):
         finished = False
-
         while not finished:
             self.clock.tick(self.FPS)
             self.space.step(1 / self.FPS)
             for event in pg.event.get():
                 if event.type == pg.QUIT or event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     finished = not finished
-                elif self.game_state > 0:
+
+                if self.game_state > 0:
                     if self.mouse_pressed(event) and self.level.number_of_birds > 0 or not self.level.mouse_is_up:
                         self.prepare_to_fire()
-                    if not self.level.flying_bird is None:
+                    if self.level.flying_bird:
                         if self.mouse_pressed2(event):
                             self.level.flying_bird.bird_function()
-
                     if event.type == pg.MOUSEBUTTONUP and event.button == 1 and not self.level.mouse_is_up:
                         self.level.mouse_is_up = True
                         self.shot()
+
+                if event.type == pygame.KEYDOWN:
+                    if self.game_state == -1 and event.key == pygame.K_RETURN:
+                        self.game_state = 0
+                    elif self.game_state == 0 and event.key in [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4,
+                                                                pygame.K_5]:
+                        keys = {pygame.K_1: 1, pygame.K_2: 2, pygame.K_3: 3, pygame.K_4: 4, pygame.K_5: 5}
+                        self.game_state = keys[event.key]
+                    elif self.game_state == 0 and event.key == pygame.K_BACKSPACE:
+                        self.game_state = -1
+                    elif self.game_state > 0 and event.key == pygame.K_BACKSPACE:
+                        self.game_state = 0
+
+            self.windows[self.game_state]()
+            print(self.game_state, len(self.space.bodies))
 
             if self.game_state > 0:
                 self.bird_checker()
@@ -82,32 +91,17 @@ class Game:
 
         pg.quit()
 
-    def start_level_1(self):
-        self.level.level1()
-
-    def start_level_2(self):
-        self.level.level2()
-
-    def start_level_3(self):
-        self.level.level3()
-
-    def start_level_4(self):
-        self.level.level4()
-
-    def start_level_5(self):
-        self.level.level5()
-
     def drawer(self):
         self.sc.blit(self.level.background_surf, self.level.background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(self.level.ground_surf, self.level.ground_surf.get_rect(bottomright=(1200, 600)))
         text_score = pg.font.Font(None, 36)
-        score = text_score.render(('SCORE: ' + str(self.level.score)), True, (255,255,0))
+        score = text_score.render(('SCORE: ' + str(self.level.score)), True, (255, 255, 0))
         self.sc.blit(score, (100, 50))
         for bird in self.level.birds:
             bird.draw()
         for pig in self.level.pigs:
             pig.draw()
-        for beam in self.level.beams:
+        for beam in self.level.obstructions:
             beam.draw()
         self.level.sling.draw()
         self.display.update()
@@ -160,12 +154,12 @@ class Game:
         unit = direction / mouse_distance
         bird_distance = min(mouse_distance, sling_length)
         bird_position = sling1 - bird_distance * unit
-        bird = self.level.birds[self.level.number_of_birds]
+        bird = self.level.birds[self.level.number_of_birds-1]
         bird.body.position = bird_position
         self.level.sling.sling_end = bird_position - unit * bird.size
 
     def shot(self):
-        bird = self.level.birds[self.level.number_of_birds]
+        bird = self.level.birds[self.level.number_of_birds-1]
         velocity = self.level.sling.direction * 5
 
         self.level.sling.reset()
