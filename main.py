@@ -38,10 +38,13 @@ class Game:
         self.space.add_collision_handler(0, 1).post_solve = self.post_solve_bird_pig
         self.space.add_collision_handler(0, 2).post_solve = self.post_solve_bird_beam
         self.space.add_collision_handler(1, 2).post_solve = self.post_solve_pig_beam
-        # self.space.add_collision_handler(0, 3).post_solve = self.post_solve_pig_ground
+        self.space.add_collision_handler(0, 3).post_solve = self.post_solve_bird_ground
         # self.space.add_collision_handler(1, 3).post_solve = self.post_solve_pig_ground
         # self.space.add_collision_handler(2, 3).post_solve = self.post_solve_beam_ground
-        self.start_level_4()
+        self.space.add_collision_handler(0, 0).post_solve = self.post_solve_bird_bird
+        self.space.add_collision_handler(1, 1).post_solve = self.post_solve_pig_pig
+        self.space.add_collision_handler(2, 2).post_solve = self.post_solve_beam_beam
+        self.start_level_1()
 
         pg.init()
 
@@ -76,10 +79,10 @@ class Game:
                         self.shot()
 
             if self.game_state > 0:
-                self.bird_checker()
+                # self.bird_checker()
                 # self.remover()
 
-                # self.re_calculator()
+                self.re_calculator()
                 self.drawer()
 
         pg.quit()
@@ -100,8 +103,12 @@ class Game:
         self.level.level5()
 
     def drawer(self):
+
         self.sc.blit(self.level.background_surf, self.level.background_surf.get_rect(bottomright=(1200, 600)))
         self.sc.blit(self.level.ground_surf, self.level.ground_surf.get_rect(bottomright=(1200, 600)))
+        text_score = pg.font.Font(None, 36)
+        score = text_score.render(('SCORE: ' + str(self.level.score)), True, (255, 0, 0))
+        self.sc.blit(score, (100, 50))
         for bird in self.level.birds:
             bird.draw()
         for pig in self.level.pigs:
@@ -111,29 +118,30 @@ class Game:
         self.level.sling.draw()
         self.display.update()
 
-    # def re_calculator(self):
-    #     for bird in self.level.birds:
-    #         if not bird.recalculate_state():
-    #             self.level.birds.remove(bird)
-    #     for pig in self.level.pigs:
-    #         if not pig.recalculate_state():
-    #             self.level.pigs.remove(pig)
-    #             self.level.score += pig.cost
-    #     for beam in self.level.beams:
-    #         if not beam.recalculate_state():
-    #             self.level.beams.remove(beam)
-    #             self.level.score += beam.cost
+    def re_calculator(self):
+        for bird in self.level.birds:
+            if not bird.recalculate_state():
+                self.level.birds.remove(bird)
+        for pig in self.level.pigs:
+            if not pig.recalculate_state():
+                self.level.pigs.remove(pig)
+                self.level.score += pig.cost
+        for beam in self.level.beams:
+            if not beam.recalculate_state():
+                self.level.beams.remove(beam)
+                self.level.score += beam.cost
 
     def bird_checker(self):
         for bird in self.level.birds:
             bird.recalculate_calm_res()
-            if not bird.calm_res:
+            if not bird.calm_res and bird not in self.level.birds_to_remove:
                 self.level.birds_to_remove.append(bird)
 
     def remover(self):
         for bird in self.level.birds_to_remove:
             bird.remove()
             self.level.birds.remove(bird)
+
         for pig in self.level.pigs_to_remove:
             pig.remove()
             self.level.pigs.remove(pig)
@@ -189,56 +197,93 @@ class Game:
         ev_bird, ev_pig = arbiter.shapes
         for pig in self.level.pigs:
             if pig.body == ev_pig.body:
-                pig.life -= 20
+                pig.life -= 1
                 if pig.life <= 0 and pig not in self.level.pigs_to_remove:
                     self.level.pigs_to_remove.append(pig)
                     self.level.score += pig.cost
         for bird in self.level.birds[self.level.number_of_birds:]:
             if bird.body == ev_bird.body:
-                bird.life -= 20
+                bird.life -= 1
                 bird.is_flying = False
                 if bird.life <= 0 and bird not in self.level.birds_to_remove:
                     self.level.birds_to_remove.append(bird)
 
+    #
     def post_solve_bird_beam(self, arbiter, space, _):
-        ev_bird, ev_beam = arbiter.shapes
-        for beam in self.level.beams:
-            if beam.body == ev_beam.body:
-                beam.life -= 20
-                if beam.life <= 0:
-                    self.level.beams_to_remove.append(beam)
-                    self.level.score += beam.cost
-        for bird in self.level.birds[self.level.number_of_birds:]:
-            if bird.body == ev_bird.body:
-                bird.life -= 20
-                bird.is_flying = False
-                if bird.life <= 0 and bird not in self.level.birds_to_remove:
-                    self.level.birds_to_remove.append(bird)
+        if arbiter.total_impulse.length > 700:
+            ev_bird, ev_beam = arbiter.shapes
+            for beam in self.level.beams:
+                if beam.body == ev_beam.body:
+                    beam.life -= 1
+                    if beam.life <= 0:
+                        self.level.beams_to_remove.append(beam)
+                        self.level.score += beam.cost
+            for bird in self.level.birds[self.level.number_of_birds:]:
+                if bird.body == ev_bird.body:
+                    bird.life -= 1
+                    bird.is_flying = False
+                    if bird.life <= 0 and bird not in self.level.birds_to_remove:
+                        self.level.birds_to_remove.append(bird)
 
     def post_solve_pig_beam(self, arbiter, space, _):
-        ev_pig, ev_beam = arbiter.shapes
-        for beam in self.level.beams:
-            if beam.body == ev_beam.body:
-                beam.life -= 20
-                if beam.life <= 0 and beam not in self.level.beams_to_remove:
-                    self.level.beams_to_remove.append(beam)
-        for pig in self.level.pigs:
-            if pig.body == ev_pig.body:
-                pig.life -= 20
-            if pig.life <= 0 and pig not in self.level.pigs_to_remove:
-                self.level.pigs_to_remove.append(pig)
+        if arbiter.total_impulse.length > 700:
+            ev_pig, ev_beam = arbiter.shapes
+            for beam in self.level.beams:
+                if beam.body == ev_beam.body:
+                    beam.life -= 1
+                    if beam.life <= 0 and beam not in self.level.beams_to_remove:
+                        self.level.beams_to_remove.append(beam)
+            for pig in self.level.pigs:
+                if pig.body == ev_pig.body:
+                    pig.life -= 1
+                if pig.life <= 0 and pig not in self.level.pigs_to_remove:
+                    self.level.pigs_to_remove.append(pig)
 
-    # def post_solve_bird_ground(self, arbiter, space, _):
-    #     ev_bird, ev_ground = arbiter.shapes
-    # ХУЕТА ПОЛНАЯ
-    # if arbiter.total_impulse.length > 1000 or ev_bird.is_flying:
-    #     for bird in self.level.birds:
-    #         if bird.body == ev_bird.body:
-    #             if arbiter.total_impulse_length > 1000:
-    #                 bird.life -= 5
-    #             bird.is_flying = False
-    # if bird.life <= 0 and bird not in self.level.birds_to_remove:
-    #     self.level.birds_to_remove.append(bird)
+    def post_solve_bird_ground(self, arbiter, space, _):
+        ev_bird_shape, ev_ground_shape = arbiter.shapes
+
+        for bird in self.level.birds:
+            if bird.body == ev_bird_shape.body:
+                ev_bird = bird
+                bird.is_flying = False
+        if ev_bird.life <= 0 and ev_bird not in self.level.birds_to_remove:
+            self.level.birds_to_remove.append(ev_bird)
+
+    def post_solve_bird_bird(self, arbiter, space, _):
+        ev_bird_shape1, ev_bird_shape2 = arbiter.shapes
+        for bird in self.level.birds:
+            if bird.body == ev_bird_shape1.body:
+                ev_bird1 = bird
+                bird.is_flying = False
+            if bird.body == ev_bird_shape2.body:
+                ev_bird2 = bird
+                bird.is_flying = False
+        if arbiter.total_impulse.length > 500:
+            ev_bird1.life -= 1
+            ev_bird2.life -= 1
+
+    def post_solve_pig_pig(self, arbiter, space, _):
+        ev_pig_shape1, ev_pig_shape2 = arbiter.shapes
+        for pig in self.level.pigs:
+            if pig.body == ev_pig_shape1.body:
+                ev_pig1 = pig
+            if pig.body == ev_pig_shape2.body:
+                ev_pig2 = pig
+                pig.is_flying = False
+        if arbiter.total_impulse.length > 500:
+            ev_pig1.life -= 1
+            ev_pig2.life -= 1
+
+    def post_solve_beam_beam(self, arbiter, space, _):
+        ev_beam_shape1, ev_beam_shape2 = arbiter.shapes
+        for beam in self.level.beams:
+            if beam.body == ev_beam_shape1.body:
+                ev_beam1 = beam
+            if beam.body == ev_beam_shape2.body:
+                ev_beam2 = beam
+        if arbiter.total_impulse.length > 500:
+            ev_beam1.life -= 1
+            ev_beam2.life -= 1
 
     # def post_solve_pig_ground(self, arbiter, space, _):
     #     ev_pig, ev_ground = arbiter.shapes
