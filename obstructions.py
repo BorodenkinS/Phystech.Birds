@@ -53,8 +53,10 @@ class Beam:
 
     def draw(self):
         angle = math.degrees(self.body.angle)
-        rot_image = pg.transform.rotate(self.image, angle)
-        self.sc.blit(rot_image, self.body.position - 0.5 * pm.Vec2d(self.lenx, self.leny))
+        rotated_image = pg.transform.rotate(self.image, angle)
+        new_rect = rotated_image.get_rect(center = self.image.get_rect(topleft = self.body.position)).center
+
+        self.sc.blit(rotated_image, new_rect)
 
     def remove(self):
         self.space.remove(self.body, self.shape)
