@@ -74,9 +74,6 @@ class KingPig(Pig):
         self.image = pg.image.load("Sprites\\smgshnic.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"King pos={self.body.position}"
-
 
 class LittlePig(Pig):
     mass = 5
@@ -94,10 +91,6 @@ class LittlePig(Pig):
         self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"Lit pos={self.body.position}"
-
-
 class DefaultPig2(Pig):
     mass = 5
     life = 20
@@ -113,6 +106,3 @@ class DefaultPig2(Pig):
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
         super().__init__(x, y, space, screen)
-
-    def __str__(self):
-        return f"Def2 pos={self.body.position}"
