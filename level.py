@@ -50,7 +50,7 @@ class Level:
 
         self.pigs = [DefaultPig(1025, 445, self.space, self.sc),
                      DefaultPig(895, 445, self.space, self.sc),
-                     DefaultPig(695, 445, self.space, self.sc)]
+                     LittlePig(695, 450, self.space, self.sc)]
 
         self.birds = [RedBird(100, 555, self.space, self.sc),
                       RedBird(75, 555, self.space, self.sc),
@@ -123,8 +123,8 @@ class Level:
                      DefaultPig(950, 555, self.space, self.sc),
                      DefaultPig(1050, 555, self.space, self.sc),
                      DefaultPig(1000, 445, self.space, self.sc),
-                     DefaultPig(890, 445, self.space, self.sc),
-                     DefaultPig(950, 335, self.space, self.sc)]
+                     LittlePig(890, 450, self.space, self.sc),
+                     LittlePig(950, 340, self.space, self.sc)]
 
         self.birds = [BigBird(100, 545, self.space, self.sc),
                       BigBird(65, 545, self.space, self.sc),
@@ -166,7 +166,7 @@ class Level:
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
                      DefaultPig(1065, 445, self.space, self.sc),
-                     DefaultPig(1065, 555, self.space, self.sc)]
+                     LittlePig(1065, 560, self.space, self.sc)]
 
         self.birds = [BigBird(100, 550, self.space, self.sc),
                       BigBird(65, 550, self.space, self.sc),
@@ -201,7 +201,7 @@ class Level:
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
                      DefaultPig(950, 335, self.space, self.sc),
-                     DefaultPig(1050, 555, self.space, self.sc),
+                     LittlePig(1050, 555, self.space, self.sc),
                      DefaultPig(1090, 555, self.space, self.sc),
                      KingPig(1120, 540, self.space, self.sc)]
 
