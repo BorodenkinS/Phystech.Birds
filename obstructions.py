@@ -14,8 +14,8 @@ class Sling:
     def __init__(self, screen):
         self.image = pg.image.load("Sprites\\sling.png").convert_alpha()
         self.sc = screen
-        self.sling_1 = pm.Vec2d(135, 412)
-        self.sling_2 = pm.Vec2d(160, 412)
+        self.sling_1 = pm.Vec2d(135, 512)
+        self.sling_2 = pm.Vec2d(160, 512)
         self.sling_length = 100
         self.sling_end = (self.sling_1 + self.sling_2) / 2
 
@@ -90,5 +90,5 @@ class GlassBeam(Beam):
         self.shape.elasticity = 1
         self.shape.friction = 1
         self.shape.collision_type = 2
-        self.image = pg.image.load("Sprites\\wood.png").convert_alpha()
+        self.image = pg.image.load("Sprites\\glass.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
