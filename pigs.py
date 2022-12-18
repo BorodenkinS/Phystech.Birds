@@ -27,7 +27,7 @@ class Pig:
 class DefaultPig(Pig):
     mass = 5
     life = 20
-    size = 14
+    size = 15
     cost = 1000
     moment = pm.moment_for_circle(mass, 0, size)
 
