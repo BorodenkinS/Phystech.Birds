@@ -24,7 +24,7 @@ class Level:
         self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
-        self.sling.position = (120, 400)
+        self.sling.position = (120, 500)
 
     def level1(self):
         # проработать механизм удаления прошлых объектов.
@@ -32,7 +32,7 @@ class Level:
         # создания новых объектов
         self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0,578), (1200, 578), 44)
+        self.ground_shape = pm.Segment(self.space.static_body, (0,630), (1200, 630), 44)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 1
         self.ground_shape.elasticity = 1
@@ -61,11 +61,11 @@ class Level:
     def level2(self):
         self.background_surf = pg.image.load('Sprites\\bg 2 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
-        self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 44)
-        self.space.add(self.ground_shape)
-        self.ground_shape.friction = 1
-        self.ground_shape.elasticity = 1
-        self.ground_shape.collision_type = 3
+        # self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 44)
+        # self.space.add(self.ground_shape)
+        # self.ground_shape.friction = 1
+        # self.ground_shape.elasticity = 1
+        # self.ground_shape.collision_type = 3
 
         self.obstructions = [WoodBeam(905, 475, False, self.space, self.sc),
                              WoodBeam(995, 475, False, self.space, self.sc),
