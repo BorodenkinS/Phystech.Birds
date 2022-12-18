@@ -6,13 +6,9 @@ import math
 WHITE = (255, 255, 255)
 
 
-def moment_for_triangle(mass, size):
     '''Для долбоёпов.
     Осторожно! Интегрирование в уме!
     '''
-    h = 0.5 * size * 3 ** 0.5
-    return 7 * size * h ** 3 * mass / 144
-
 
 class Bird:
     body = None
