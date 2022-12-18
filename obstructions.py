@@ -13,8 +13,8 @@ class Sling:
     def __init__(self, screen):
         self.image = pg.image.load("Sprites\\sling.png").convert_alpha()
         self.sc = screen
-        self.sling_1 = pm.Vec2d(135, 512)
-        self.sling_2 = pm.Vec2d(160, 512)
+        self.sling_1 = pm.Vec2d(135, 502)
+        self.sling_2 = pm.Vec2d(160, 502)
         self.sling_length = 100
         self.sling_end = (self.sling_1 + self.sling_2) / 2
 
