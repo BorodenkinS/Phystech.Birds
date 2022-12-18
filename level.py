@@ -22,7 +22,7 @@ class Level:
         self.space = space
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
-        self.sling.position = (120, 490)
+        self.sling.position = (120,485)
 
     def level1(self):
         # проработать механизм удаления прошлых объектов.
@@ -35,18 +35,18 @@ class Level:
         self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
         self.space.add(self.ground_body, self.ground_shape)
         self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.3
+        self.ground_shape.elasticity = 0.8
         self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(1050, 520, False, self.space, self.sc),
-                             WoodBeam(1000, 520, False, self.space, self.sc),
-                             WoodBeam(1025, 465, True, self.space, self.sc),
-                             WoodBeam(920, 520, False, self.space, self.sc),
-                             WoodBeam(870, 520, False, self.space, self.sc),
-                             WoodBeam(895, 465, True, self.space, self.sc),
-                             WoodBeam(720, 520, False, self.space, self.sc),
-                             WoodBeam(670, 520, False, self.space, self.sc),
-                             WoodBeam(695, 465, True, self.space, self.sc)]
+                      WoodBeam(1000, 520, False, self.space, self.sc),
+                      WoodBeam(1025, 465, True, self.space, self.sc),
+                      WoodBeam(920, 520, False, self.space, self.sc),
+                      WoodBeam(870, 520, False, self.space, self.sc),
+                      WoodBeam(895, 465, True, self.space, self.sc),
+                      WoodBeam(720, 520, False, self.space, self.sc),
+                      WoodBeam(670, 520, False, self.space, self.sc),
+                      WoodBeam(695, 465, True, self.space, self.sc)]
 
         self.pigs = [DefaultPig(1025, 445, self.space, self.sc),
                      DefaultPig2(895, 445, self.space, self.sc),
@@ -62,23 +62,40 @@ class Level:
     def level2(self):
         self.background_surf = pg.image.load('Sprites\\bg 2 1200x600.png')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
+
+        # self.sup_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        # self.sup_body.position = pm.Vec2d(600, 585)
+        # self.sup_shape = pm.Poly.create_box(self.sup_body, (1200, 30))
+        # self.space.add(self.sup_body, self.sup_shape)
+        # self.sup_shape.friction = 3
+        # self.sup_shape.elasticity = 0.8
+        # self.sup_shape.collision_type = 3
+
         self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
         self.ground_body.position = pm.Vec2d(600, 585)
         self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
         self.space.add(self.ground_body, self.ground_shape)
         self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.3
+        self.ground_shape.elasticity = 0.8
         self.ground_shape.collision_type = 3
 
+        # self.ground_body = pm.Body(10000, 10000)
+        # self.ground_body.position = (600, 585)
+        # self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 20))
+        # self.space.add(self.ground_body, self.ground_shape)
+        # self.ground_shape.friction = 3
+        # self.ground_shape.elasticity = 0.3
+        # self.ground_shape.collision_type = 3
+
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
-                             WoodBeam(995, 520, False, self.space, self.sc),
-                             WoodBeam(950, 465, True, self.space, self.sc),
-                             WoodBeam(905, 410, False, self.space, self.sc),
-                             WoodBeam(995, 410, False, self.space, self.sc),
-                             WoodBeam(950, 355, True, self.space, self.sc),
-                             GlassBeam(890, 520, False, self.space, self.sc),
-                             GlassBeam(800, 520, False, self.space, self.sc),
-                             GlassBeam(845, 465, True, self.space, self.sc)]
+                      WoodBeam(995, 520, False, self.space, self.sc),
+                      WoodBeam(950, 465, True, self.space, self.sc),
+                      WoodBeam(905, 410, False, self.space, self.sc),
+                      WoodBeam(995, 410, False, self.space, self.sc),
+                      WoodBeam(950, 355, True, self.space, self.sc),
+                      GlassBeam(890, 520, False, self.space, self.sc),
+                      GlassBeam(800, 520, False, self.space, self.sc),
+                      GlassBeam(845, 465, True, self.space, self.sc)]
 
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig2(845, 555, self.space, self.sc),
@@ -91,33 +108,33 @@ class Level:
         self.number_of_birds = 4
 
     def level3(self):
-        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.png')
+        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.jpg')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
         self.ground_shape = pm.Segment(self.space.static_body, (0, 578), (1200, 578), 44)
         self.space.add(self.ground_shape)
         self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.3
+        self.ground_shape.elasticity = 0.8
         self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
-                             WoodBeam(995, 520, False, self.space, self.sc),
-                             GlassBeam(950, 465, True, self.space, self.sc),
-                             WoodBeam(890, 520, False, self.space, self.sc),
-                             WoodBeam(800, 520, False, self.space, self.sc),
-                             GlassBeam(845, 465, True, self.space, self.sc),
-                             WoodBeam(1010, 520, False, self.space, self.sc),
-                             WoodBeam(1100, 520, False, self.space, self.sc),
-                             GlassBeam(1055, 465, True, self.space, self.sc),
-                             WoodBeam(960, 410, False, self.space, self.sc),
-                             WoodBeam(1050, 410, False, self.space, self.sc),
-                             GlassBeam(1005, 355, True, self.space, self.sc),
-                             WoodBeam(850, 410, False, self.space, self.sc),
-                             WoodBeam(940, 410, False, self.space, self.sc),
-                             GlassBeam(890, 355, True, self.space, self.sc),
-                             WoodBeam(910, 300, False, self.space, self.sc),
-                             WoodBeam(1000, 300, False, self.space, self.sc),
-                             GlassBeam(955, 245, True, self.space, self.sc)
-                             ]
+                      WoodBeam(995, 520, False, self.space, self.sc),
+                      GlassBeam(950, 465, True, self.space, self.sc),
+                      WoodBeam(890, 520, False, self.space, self.sc),
+                      WoodBeam(800, 520, False, self.space, self.sc),
+                      GlassBeam(845, 465, True, self.space, self.sc),
+                      WoodBeam(1010, 520, False, self.space, self.sc),
+                      WoodBeam(1100, 520, False, self.space, self.sc),
+                      GlassBeam(1055, 465, True, self.space, self.sc),
+                      WoodBeam(960, 410, False, self.space, self.sc),
+                      WoodBeam(1050, 410, False, self.space, self.sc),
+                      GlassBeam(1005, 355, True, self.space, self.sc),
+                      WoodBeam(850, 410, False, self.space, self.sc),
+                      WoodBeam(940, 410, False, self.space, self.sc),
+                      GlassBeam(890, 355, True, self.space, self.sc),
+                      WoodBeam(910, 300, False, self.space, self.sc),
+                      WoodBeam(1000, 300, False, self.space, self.sc),
+                      GlassBeam(955, 245, True, self.space, self.sc)
+                      ]
 
         self.pigs = [DefaultPig(845, 555, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
@@ -132,36 +149,37 @@ class Level:
         self.number_of_birds = 3
 
     def level4(self):
-        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.png')
+        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
         self.ground_surf = pg.image.load('Sprites\\grass.png')
         self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
         self.ground_body.position = pm.Vec2d(600, 585)
         self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
         self.space.add(self.ground_body, self.ground_shape)
         self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.3
+        self.ground_shape.elasticity = 0.8
         self.ground_shape.collision_type = 3
+
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
-                             WoodBeam(995, 520, False, self.space, self.sc),
-                             WoodBeam(950, 465, True, self.space, self.sc),
-                             GlassBeam(980, 520, False, self.space, self.sc),
-                             GlassBeam(920, 520, False, self.space, self.sc),
-                             WoodBeam(905, 410, False, self.space, self.sc),
-                             WoodBeam(995, 410, False, self.space, self.sc),
-                             WoodBeam(950, 355, True, self.space, self.sc),
-                             GlassBeam(980, 410, False, self.space, self.sc),
-                             GlassBeam(920, 410, False, self.space, self.sc),
-                             WoodBeam(1020, 520, False, self.space, self.sc),
-                             WoodBeam(1110, 520, False, self.space, self.sc),
-                             WoodBeam(1065, 465, True, self.space, self.sc),
-                             GlassBeam(1095, 520, False, self.space, self.sc),
-                             GlassBeam(1035, 520, False, self.space, self.sc),
-                             WoodBeam(1020, 410, False, self.space, self.sc),
-                             WoodBeam(1110, 410, False, self.space, self.sc),
-                             WoodBeam(1065, 355, True, self.space, self.sc),
-                             GlassBeam(1095, 410, False, self.space, self.sc),
-                             GlassBeam(1035, 410, False, self.space, self.sc),
-                             ]
+                      WoodBeam(995, 520, False, self.space, self.sc),
+                      WoodBeam(950, 465, True, self.space, self.sc),
+                      GlassBeam(980, 520, False, self.space, self.sc),
+                      GlassBeam(920, 520, False, self.space, self.sc),
+                      WoodBeam(905, 410, False, self.space, self.sc),
+                      WoodBeam(995, 410, False, self.space, self.sc),
+                      WoodBeam(950, 355, True, self.space, self.sc),
+                      GlassBeam(980, 410, False, self.space, self.sc),
+                      GlassBeam(920, 410, False, self.space, self.sc),
+                      WoodBeam(1020, 520, False, self.space, self.sc),
+                      WoodBeam(1110, 520, False, self.space, self.sc),
+                      WoodBeam(1065, 465, True, self.space, self.sc),
+                      GlassBeam(1095, 520, False, self.space, self.sc),
+                      GlassBeam(1035, 520, False, self.space, self.sc),
+                      WoodBeam(1020, 410, False, self.space, self.sc),
+                      WoodBeam(1110, 410, False, self.space, self.sc),
+                      WoodBeam(1065, 355, True, self.space, self.sc),
+                      GlassBeam(1095, 410, False, self.space, self.sc),
+                      GlassBeam(1035, 410, False, self.space, self.sc),
+                      ]
 
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
@@ -181,23 +199,23 @@ class Level:
         self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
         self.space.add(self.ground_body, self.ground_shape)
         self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.3
+        self.ground_shape.elasticity = 0.8
         self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
-                             WoodBeam(995, 520, False, self.space, self.sc),
-                             WoodBeam(950, 465, True, self.space, self.sc),
-                             GlassBeam(980, 520, False, self.space, self.sc),
-                             GlassBeam(920, 520, False, self.space, self.sc),
-                             WoodBeam(905, 410, False, self.space, self.sc),
-                             WoodBeam(995, 410, False, self.space, self.sc),
-                             WoodBeam(950, 355, True, self.space, self.sc),
-                             GlassBeam(980, 410, False, self.space, self.sc),
-                             GlassBeam(920, 410, False, self.space, self.sc),
-                             WoodBeam(905, 300, False, self.space, self.sc),
-                             WoodBeam(995, 300, False, self.space, self.sc),
-                             GlassBeam(950, 245, True, self.space, self.sc),
-                             ]
+                      WoodBeam(995, 520, False, self.space, self.sc),
+                      WoodBeam(950, 465, True, self.space, self.sc),
+                      GlassBeam(980, 520, False, self.space, self.sc),
+                      GlassBeam(920, 520, False, self.space, self.sc),
+                      WoodBeam(905, 410, False, self.space, self.sc),
+                      WoodBeam(995, 410, False, self.space, self.sc),
+                      WoodBeam(950, 355, True, self.space, self.sc),
+                      GlassBeam(980, 410, False, self.space, self.sc),
+                      GlassBeam(920, 410, False, self.space, self.sc),
+                      WoodBeam(905, 300, False, self.space, self.sc),
+                      WoodBeam(995, 300, False, self.space, self.sc),
+                      GlassBeam(950, 245, True, self.space, self.sc),
+                      ]
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
                      DefaultPig2(950, 335, self.space, self.sc),
