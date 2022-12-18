@@ -25,7 +25,7 @@ class Pig:
         self.space.remove(self.body, self.shape)
 
     def velocity_checker(self):
-        return abs(self.body.velocity) > 0.1 or abs(self.body.angular_velocity) > 0.1
+        return abs(self.body.velocity) > 1 or abs(self.body.angular_velocity) > 1
 
     def recalculate_state(self):
         if not self.velocity_checker():
@@ -41,7 +41,7 @@ class Pig:
 class DefaultPig(Pig):
     mass = 5
     life = 20
-    size = 14
+    size = 15
     cost = 1000
     moment = pm.moment_for_circle(mass, 0, size)
 
@@ -74,11 +74,14 @@ class KingPig(Pig):
         self.image = pg.image.load("Sprites\\smgshnic.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
+    def __str__(self):
+        return f"King pos={self.body.position}"
+
 
 class LittlePig(Pig):
     mass = 5
     life = 10
-    size = 10
+    size = 8
     cost = 500
     moment = pm.moment_for_circle(mass, 0, size)
 
@@ -90,6 +93,10 @@ class LittlePig(Pig):
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
+
+    def __str__(self):
+        return f"Lit pos={self.body.position}"
+
 
 class DefaultPig2(Pig):
     mass = 5
@@ -106,3 +113,6 @@ class DefaultPig2(Pig):
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
         super().__init__(x, y, space, screen)
+
+    def __str__(self):
+        return f"Def2 pos={self.body.position}"
