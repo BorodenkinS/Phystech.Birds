@@ -241,3 +241,7 @@ class Level:
         self.mouse_is_up = True
         self.flying_bird = None
         self.sling.reset()
+
+
+if __name__ == "main":
+    print("This module is not for direct call!")

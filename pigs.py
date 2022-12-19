@@ -114,3 +114,7 @@ class DefaultPig2(Pig):
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
         super().__init__(x, y, space, screen)
+
+
+if __name__ == "main":
+    print("This module is not for direct call!")

@@ -138,3 +138,7 @@ class BigBird(Bird):
         self.shape.collision_type = 0
         self.image = pg.image.load("Sprites\\ivanov.png").convert_alpha()
         super().__init__(x, y, space, screen)
+
+
+if __name__ == "main":
+    print("This module is not for direct call!")

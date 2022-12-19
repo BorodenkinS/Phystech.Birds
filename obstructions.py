@@ -122,3 +122,7 @@ class GlassBeam(Beam):
         self.shape.collision_type = 2
         self.image = pg.image.load("Sprites\\glass.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
+
+
+if __name__ == "main":
+    print("This module is not for direct call!")
