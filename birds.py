@@ -18,10 +18,11 @@ class Bird:
     is_flying_times = 0
     life = None
     launch_status = False
-    track = []
+    
 
     def __init__(self, x, y, space, screen):
         """Инициализация птички как тела в pymunk"""
+        self.track = []
         self.body.position = pm.Vec2d(x, y)
         space.add(self.body, self.shape)
         self.sc = screen
@@ -118,7 +119,7 @@ class TriangleBird(Bird):
     def bird_function(self):
         """Функция ускорения птицы (реализуется при нажатии)"""
         if not self.is_accelerated and self.is_flying:
-            self.body.velocity *= 2
+            self.body.velocity *= 3
             self.is_accelerated = True
 
 
