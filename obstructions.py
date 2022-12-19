@@ -7,7 +7,7 @@ pymunk.pygame_util.positive_y_is_up = False
 
 
 class Sling:
-    """Классз для рогатки, которой запускаются птицы"""
+    """Класс для рогатки, которой запускаются птицы"""
     position = None
     direction = None
 
