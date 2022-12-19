@@ -18,7 +18,6 @@ class Bird:
     is_flying_times = 0
     life = None
     launch_status = False
-    
 
     def __init__(self, x, y, space, screen):
         """Инициализация птички как тела в pymunk"""

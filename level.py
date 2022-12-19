@@ -7,6 +7,7 @@ from obstructions import *
 
 class Level:
     """Класс игрового уровня, содержащий конструкторы всех уровней"""
+
     def __init__(self, space, screen):
         """Инициализация объекта уровня"""
         self.birds = []
@@ -62,7 +63,7 @@ class Level:
                       RedBird(25, 555, self.space, self.sc)]
         self.number_of_birds = 4
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * (self.number_of_birds-1)
+                         + 100 * (self.number_of_birds - 1)
 
     def level2(self):
         """Конструктор 2 уровня"""
@@ -89,7 +90,7 @@ class Level:
                       RedBird(25, 555, self.space, self.sc)]
         self.number_of_birds = 4
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * (self.number_of_birds-1)
+                         + 100 * (self.number_of_birds - 1)
 
     def level3(self):
         """Конструктор 3 уровня"""
@@ -123,7 +124,7 @@ class Level:
                       RedBird(130, 550, self.space, self.sc)]
         self.number_of_birds = 3
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * (self.number_of_birds-1)
+                         + 100 * (self.number_of_birds - 1)
 
     def level4(self):
         """Конструктор 4 уровня"""
@@ -161,7 +162,7 @@ class Level:
                       TriangleBird(20, 550, self.space, self.sc)]
         self.number_of_birds = 3
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * (self.number_of_birds-1)
+                         + 100 * (self.number_of_birds - 1)
 
     def level5(self):
         """Конструктор 5 уровня"""
@@ -194,7 +195,7 @@ class Level:
                       RedBird(20, 555, self.space, self.sc)]
         self.number_of_birds = 3
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * (self.number_of_birds-1)
+                         + 100 * (self.number_of_birds - 1)
 
     def new_level(self):
         """Создание объектов, общих для всех уровней, а также очистка экрана pygame и поля pymunk при создании уровня"""

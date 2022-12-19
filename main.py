@@ -7,7 +7,7 @@ from birds import *
 from pigs import *
 from obstructions import *
 
-pymunk.pygame_util.positive_y_is_up = False
+pygame_util.positive_y_is_up = False
 
 
 class Game:
@@ -22,7 +22,7 @@ class Game:
         self.display.set_icon(self.icon)
         self.clock = pg.time.Clock()
         self.draw_options = pygame_util.DrawOptions(self.sc)
-        self.space = pymunk.Space()
+        self.space = pm.Space()
         self.space.gravity = 0, 1000
 
         self.game_state = -1
@@ -65,27 +65,27 @@ class Game:
 
     def level_menu(self):
         """Функция вызова меню выбора уровня с показателем текущего рекорда по очкам на каждм уровне"""
-        self.sc.fill((0,0,0))
+        self.sc.fill((0, 0, 0))
         self.sc.blit(pg.image.load("Sprites\\bg for menu 1200x600.png"), (0, 0))
         font = pg.font.Font(None, 48)
         surfs = [pg.image.load("Sprites\\bg " + str(i) + " 216x450.png") for i in range(1, 6)]
         for i in range(5):
             self.sc.blit(surfs[i], (20 + 236 * i, 30))
-            text = font.render('Нажмите ' + str(i + 1), True, (0,0,0))
+            text = font.render('Нажмите ' + str(i + 1), True, (0, 0, 0))
             temp_surface = pg.Surface(text.get_size())
             temp_surface.fill((255, 255, 255))
             temp_surface.blit(text, (0, 0))
             self.sc.blit(temp_surface, (44 + 236 * i, 500))
             if self.scores[i] != 0:
-                score_text = font.render(str(self.scores[i]), True, (0,0,0))
+                score_text = font.render(str(self.scores[i]), True, (0, 0, 0))
                 temp_surface_ = pg.Surface(score_text.get_size())
                 temp_surface_.fill((255, 255, 255))
                 temp_surface_.blit(score_text, (0, 0))
                 self.sc.blit(temp_surface_, (110 + 236 * i, 450))
         font_back = pg.font.Font(None, 20)
-        text_back = font_back.render('Для возврата нажмите backspace', True, (0,0,0))
+        text_back = font_back.render('Для возврата нажмите backspace', True, (0, 0, 0))
         back_surface = pg.Surface(text_back.get_size())
-        back_surface.fill((255,255,255))
+        back_surface.fill((255, 255, 255))
         back_surface.blit(text_back, (0, 0))
         self.sc.blit(back_surface, (20, 550))
 
@@ -105,8 +105,6 @@ class Game:
         self.sc.blit(img, (Game.WIDTH / 2 - img.get_size()[0] / 2, Game.HEIGHT / 2 - img.get_size()[1] / 2))
         self.sc.blit(win_text, (Game.WIDTH / 2 - img.get_size()[0] / 2 + 40, Game.HEIGHT / 2 + img.get_size()[1] / 2))
         self.scores[self.game_state - 1] = self.level.score
-
-
 
     def drawer(self):
         """Функция отрисовки объектов на уровне"""

@@ -93,7 +93,7 @@ class WoodBeam(Beam):
     moment = mass * (width ** 2 + length ** 2) / 12
 
     def __init__(self, x, y, is_hor, space, screen):
-        self.body = pm  .Body(self.mass, self.moment)
+        self.body = pm.Body(self.mass, self.moment)
         self.shape = pm.Poly.create_box(self.body, (self.length, self.width))
         self.shape.color = (255, 0, 0)
         self.shape.elasticity = 0.1
