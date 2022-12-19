@@ -66,6 +66,7 @@ class Beam:
         if not self.velocity_checker():
             self.body.velocity = pm.Vec2d(0, 0)
             self.body.angular_velocity = 0
+            self.body.angle = 0
         life_factor = self.life > 0
         if not life_factor:
             self.remove()
@@ -74,7 +75,7 @@ class Beam:
 
 class WoodBeam(Beam):
     mass = 1
-    life = 1
+    life = 10
     length = 100
     width = 10
     cost = 500
@@ -87,14 +88,13 @@ class WoodBeam(Beam):
         self.shape.elasticity = 0.1
         self.shape.friction = 3
         self.shape.collision_type = 2
-        self.body.angle = 0
         self.image = pg.image.load("Sprites\\wood.png").convert_alpha()
         super().__init__(x, y, is_hor, space, screen)
 
 
 class GlassBeam(Beam):
     mass = 1
-    life = 1
+    life = 5
     width = 10
     cost = 100
     length = 100
