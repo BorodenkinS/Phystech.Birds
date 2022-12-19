@@ -88,7 +88,7 @@ class Game:
                 if self.game_state > 0:
                     if self.mouse_pressed(event) and self.level.number_of_birds > 0 or not self.level.mouse_is_up:
                         self.prepare_to_fire()
-                    if self.level.flying_bird != None:
+                    if self.level.flying_bird:
                         if self.mouse_pressed2(event):
                             self.level.flying_bird.bird_function()
                     if event.type == pg.MOUSEBUTTONUP and event.button == 1 and not self.level.mouse_is_up:
