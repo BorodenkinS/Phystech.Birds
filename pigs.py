@@ -53,8 +53,6 @@ class DefaultPig(Pig):
         self.image = pg.image.load("Sprites\\it's me.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"Def pos={self.body.position}"
 
 
 class KingPig(Pig):
@@ -93,8 +91,6 @@ class LittlePig(Pig):
         self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"Lit pos={self.body.position}"
 
 
 class DefaultPig2(Pig):
@@ -113,5 +109,4 @@ class DefaultPig2(Pig):
         self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"Def2 pos={self.body.position}"
+
