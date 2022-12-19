@@ -15,9 +15,6 @@ class Level:
         self.beams = []
         self.number_of_birds = 0
         self.mouse_is_up = True
-        self.pigs_to_remove = []
-        self.birds_to_remove = []
-        self.beams_to_remove = []
         self.max_score = 0
         self.flying_bird = None
         self.score = 0
@@ -26,27 +23,19 @@ class Level:
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
         self.sling.position = (120, 485)
+        self.right_wall_body = None
+        self.right_wall_shape = None
+        self.left_wall_body = None
+        self.left_wall_shape = None
+        self.ground_shape = None
+        self.ground_body = None
+        self.background_surf = None
+        self.ground_surf = None
 
     def level1(self):
         self.new_level()
 
         self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
-
-        self.wall_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.wall_body.position = pm.Vec2d(1210, 600)
-        self.wall_shape = pm.Poly.create_box(self.wall_body, (20, 600))
-        self.wall_shape.friction = 3
-        self.wall_shape.elasticity = 0.8
-        self.wall_shape.collision_type = 3
-        self.space.add(self.wall_body, self.wall_shape)
 
         self.beams = [WoodBeam(1050, 520, False, self.space, self.sc),
                       WoodBeam(1000, 520, False, self.space, self.sc),
@@ -73,15 +62,6 @@ class Level:
     def level2(self):
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 2 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -108,14 +88,6 @@ class Level:
     def level3(self):
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -149,14 +121,6 @@ class Level:
     def level4(self):
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -195,14 +159,6 @@ class Level:
     def level5(self):
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -233,8 +189,45 @@ class Level:
                          + 100 * self.number_of_birds
 
     def new_level(self):
-        if self.space.bodies:
-            for body in self.space.bodies:
-                self.space.remove(body)
+        for beam in self.beams:
+            beam.remove()
+        for pig in self.pigs:
+            pig.remove()
+        for bird in self.birds:
+            bird.remove()
+        if not self.ground_body is None:
+            self.space.remove(self.left_wall_body, self.left_wall_shape)
+            self.space.remove(self.right_wall_body, self.right_wall_shape)
+            self.space.remove(self.ground_body, self.ground_shape)
+
         self.score = 0
         self.max_score = 0
+        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.ground_body.position = pm.Vec2d(600, 585)
+        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
+        self.space.add(self.ground_body, self.ground_shape)
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.6
+        self.ground_shape.collision_type = 3
+
+        self.right_wall_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.right_wall_body.position = pm.Vec2d(1210, 300)
+        self.right_wall_shape = pm.Poly.create_box(self.right_wall_body, (20, 600))
+        self.right_wall_shape.friction = 0.1
+        self.right_wall_shape.elasticity = 1
+        self.right_wall_shape.collision_type = 3
+        self.space.add(self.right_wall_body, self.right_wall_shape)
+
+        self.left_wall_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.left_wall_body.position = pm.Vec2d(-10, 300)
+        self.left_wall_shape = pm.Poly.create_box(self.left_wall_body, (20, 600))
+        self.left_wall_shape.friction = 0.1
+        self.left_wall_shape.elasticity = 1
+        self.left_wall_shape.collision_type = 3
+        self.space.add(self.left_wall_body, self.left_wall_shape)
+
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
+
+        self.mouse_is_up = True
+        self.flying_bird = None
+        self.sling.reset()
