@@ -3,16 +3,6 @@ import pygame as pg
 import pymunk.pygame_util
 import math
 
-WHITE = (255, 255, 255)
-
-
-def moment_for_triangle(mass, size):
-    '''Для долбоёпов.
-    Осторожно! Интегрирование в уме!
-    '''
-    h = 0.5 * size * 3 ** 0.5
-    return 7 * size * h ** 3 * mass / 144
-
 
 class Bird:
     body = None
@@ -21,7 +11,7 @@ class Bird:
     mass = None
     size = None
     moment = None
-    calm_res = 120
+    calm_res = 240
     is_flying = False
     is_flying_times = 0
     life = None
@@ -65,13 +55,6 @@ class Bird:
     def velocity_checker(self):
         return abs(self.body.velocity) > 0.5 or abs(self.body.angular_velocity) > 0.5 or not self.launch_status
 
-    # def recalculate_calm_res(self):
-    #     if not self.velocity_checker():
-    #         self.body.velocity = pm.Vec2d(0, 0)
-    #         self.body.angular_velocity = 0
-    #         self.calm_res = min(self.calm_res - 1, 0)
-
-
     def recalculate_state(self):
         if not self.velocity_checker():
             self.body.velocity = pm.Vec2d(0,0)
@@ -108,14 +91,13 @@ class TriangleBird(Bird):
     mass = 4
     life = 5
     size = 15
-    moment = moment_for_triangle(mass, size)
+    moment = pm.moment_for_circle(mass, size, 0)
 
     is_accelerated = False
 
     def __init__(self, x, y, space, screen):
         self.image = pg.image.load("Sprites\\vladimir angemych.png").convert_alpha()
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
-        # self.shape = pm.Poly(self.body, ((0, 0), (self.size / 2, 0.5 * self.size * 3 ** 0.5), (self.size, 0)))
         self.shape = pm.Circle(self.body, self.size, (0, 0))
         self.shape.elasticity = 0.95
         self.shape.friction = 1
@@ -125,7 +107,7 @@ class TriangleBird(Bird):
     def bird_function(self):
         '''acceleration'''
         if not self.is_accelerated and self.is_flying:
-            self.body.velocity *= 5
+            self.body.velocity *= 10
             self.is_accelerated = True
 
 

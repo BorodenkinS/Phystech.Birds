@@ -25,7 +25,7 @@ class Pig:
         self.space.remove(self.body, self.shape)
 
     def velocity_checker(self):
-        return abs(self.body.velocity) > 0.1 or abs(self.body.angular_velocity) > 0.1
+        return abs(self.body.velocity) > 1 or abs(self.body.angular_velocity) > 1
 
     def recalculate_state(self):
         if not self.velocity_checker():
@@ -41,7 +41,7 @@ class Pig:
 class DefaultPig(Pig):
     mass = 5
     life = 20
-    size = 14
+    size = 15
     cost = 1000
     moment = pm.moment_for_circle(mass, 0, size)
 
@@ -81,7 +81,7 @@ class KingPig(Pig):
 class LittlePig(Pig):
     mass = 5
     life = 10
-    size = 10
+    size = 8
     cost = 500
     moment = pm.moment_for_circle(mass, 0, size)
 
