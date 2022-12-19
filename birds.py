@@ -53,7 +53,7 @@ class Bird:
         self.space.remove(self.body, self.shape)
 
     def velocity_checker(self):
-        return abs(self.body.velocity) > 0.5 or abs(self.body.angular_velocity) > 0.5 or not self.launch_status
+        return abs(self.body.velocity) > 1 or abs(self.body.angular_velocity) > 1 or not self.launch_status
 
     def recalculate_state(self):
         if not self.velocity_checker():
