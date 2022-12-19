@@ -43,7 +43,7 @@ class Bird:
         rot_image = pg.transform.rotate(self.image, -angle)
         self.sc.blit(rot_image, self.body.position - pm.Vec2d(self.size, self.size))
         for pos in self.track:
-            pg.draw.circle(self.sc, WHITE, pos, self.size / 8)
+            pg.draw.circle(self.sc, (255, 255, 255), pos, 4)
         if self.is_flying:
             self.is_flying_times += 1
             if self.is_flying_times % 10 == 0:
@@ -57,9 +57,8 @@ class Bird:
 
     def recalculate_state(self):
         if not self.velocity_checker():
-            self.body.velocity = pm.Vec2d(0,0)
+            self.body.velocity = pm.Vec2d(0, 0)
             self.body.angular_velocity = 0
-            self.body.angle = 0
             self.calm_res -= 1
 
         life_factor = self.life > 0 and self.calm_res > 0
@@ -80,8 +79,8 @@ class RedBird(Bird):
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.95
-        self.shape.friction = 1
+        self.shape.elasticity = 0.2
+        self.shape.friction = 4
         self.shape.collision_type = 0
         self.image = pg.image.load('Sprites\\monchenko.png').convert_alpha()
         super().__init__(x, y, space, screen)
@@ -89,7 +88,7 @@ class RedBird(Bird):
 
 class TriangleBird(Bird):
     mass = 4
-    life = 5
+    life = 20
     size = 15
     moment = pm.moment_for_circle(mass, size, 0)
 
@@ -99,29 +98,29 @@ class TriangleBird(Bird):
         self.image = pg.image.load("Sprites\\vladimir angemych.png").convert_alpha()
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.95
-        self.shape.friction = 1
+        self.shape.elasticity = 0.2
+        self.shape.friction = 4
         self.shape.collision_type = 0
         super().__init__(x, y, space, screen)
 
     def bird_function(self):
         '''acceleration'''
         if not self.is_accelerated and self.is_flying:
-            self.body.velocity *= 10
+            self.body.velocity *= 2
             self.is_accelerated = True
 
 
 class BigBird(Bird):
     mass = 20
-    life = 20
+    life = 30
     size = 30
     moment = pm.moment_for_circle(mass, 0, size)
 
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.7
-        self.shape.friction = 1.2
+        self.shape.elasticity = 0.2
+        self.shape.friction = 4
         self.shape.collision_type = 0
         self.image = pg.image.load("Sprites\\ivanov.png").convert_alpha()
         super().__init__(x, y, space, screen)
