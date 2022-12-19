@@ -203,7 +203,7 @@ class Game:
         if impulse > 600:
             for beam in self.level.beams:
                 if beam.body == ev_beam_shape.body:
-                    beam.life -= 5 * impulse / 600
+                    beam.life -= 7 * impulse / 600
             for bird in self.level.birds[self.level.number_of_birds:]:
                 if bird.body == ev_bird_shape.body:
                     bird.is_flying = False
