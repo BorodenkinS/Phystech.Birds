@@ -31,7 +31,6 @@ class Pig:
         if not self.velocity_checker():
             self.body.velocity = pm.Vec2d(0, 0)
             self.body.angular_velocity = 0
-            self.body.angle = 0
         life_factor = self.life > 0
         if not life_factor:
             self.remove()
@@ -39,7 +38,7 @@ class Pig:
 
 
 class DefaultPig(Pig):
-    mass = 5
+    mass = 30
     life = 20
     size = 15
     cost = 1000
@@ -59,7 +58,7 @@ class DefaultPig(Pig):
 
 
 class KingPig(Pig):
-    mass = 10
+    mass = 60
     life = 40
     size = 30
     moment = pm.moment_for_circle(mass, 0, size)
@@ -68,8 +67,8 @@ class KingPig(Pig):
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.4
-        self.shape.friction = 2
+        self.shape.elasticity = 0.2
+        self.shape.friction = 3
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\smgshnic.png").convert_alpha()
         super().__init__(x, y, space, screen)
@@ -79,7 +78,7 @@ class KingPig(Pig):
 
 
 class LittlePig(Pig):
-    mass = 5
+    mass = 20
     life = 10
     size = 8
     cost = 500
@@ -88,8 +87,8 @@ class LittlePig(Pig):
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 1.2
-        self.shape.friction = 0.5
+        self.shape.elasticity = 0.2
+        self.shape.friction = 3
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
@@ -108,8 +107,8 @@ class DefaultPig2(Pig):
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.95
-        self.shape.friction = 1
+        self.shape.elasticity = 0.2
+        self.shape.friction = 3
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
         super().__init__(x, y, space, screen)
