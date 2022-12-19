@@ -89,7 +89,7 @@ class RedBird(Bird):
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.5
+        self.shape.elasticity = 0.7
         self.shape.friction = 4
         self.shape.collision_type = 0
         self.image = pg.image.load('Sprites\\monchenko.png').convert_alpha()
@@ -110,7 +110,7 @@ class TriangleBird(Bird):
         self.image = pg.image.load("Sprites\\vladimir angemych.png").convert_alpha()
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.2
+        self.shape.elasticity = 0.7
         self.shape.friction = 4
         self.shape.collision_type = 0
         super().__init__(x, y, space, screen)
@@ -133,7 +133,7 @@ class BigBird(Bird):
     def __init__(self, x, y, space, screen):
         self.body = pm.Body(self.mass, self.moment, pm.Body.KINEMATIC)
         self.shape = pm.Circle(self.body, self.size, (0, 0))
-        self.shape.elasticity = 0.2
+        self.shape.elasticity = 0.7
         self.shape.friction = 4
         self.shape.collision_type = 0
         self.image = pg.image.load("Sprites\\ivanov.png").convert_alpha()
