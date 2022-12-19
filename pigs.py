@@ -4,6 +4,7 @@ import math
 
 
 class Pig:
+    """Класс-родитель для всех свинок"""
     body = None
     shape = None
     image = None
@@ -11,23 +12,28 @@ class Pig:
     life = None
 
     def __init__(self, x, y, space, screen):
+        """Инициализация свинки"""
         self.body.position = pm.Vec2d(x, y)
         space.add(self.body, self.shape)
         self.sc = screen
         self.space = space
 
     def draw(self):
+        """Отрисовка свинки"""
         angle = math.degrees(self.body.angle)
         rot_image = pg.transform.rotate(self.image, -angle)
         self.sc.blit(rot_image, self.body.position - pm.Vec2d(self.size, self.size))
 
     def remove(self):
+        """Удаление свинки"""
         self.space.remove(self.body, self.shape)
 
     def velocity_checker(self):
+        """Обработчик движения свинки"""
         return abs(self.body.velocity) > 1 or abs(self.body.angular_velocity) > 1
 
     def recalculate_state(self):
+        """Обработчик состояния свинки, её удаление после уничтожения"""
         if not self.velocity_checker():
             self.body.velocity = pm.Vec2d(0, 0)
             self.body.angular_velocity = 0
@@ -39,6 +45,7 @@ class Pig:
 
 
 class DefaultPig(Pig):
+    """Стандартная свинка"""
     mass = 5
     life = 20
     size = 15
@@ -54,11 +61,9 @@ class DefaultPig(Pig):
         self.image = pg.image.load("Sprites\\it's me.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"Def pos={self.body.position}"
-
 
 class KingPig(Pig):
+    """Король Свинок (имеет больше жизней)"""
     mass = 10
     life = 40
     size = 30
@@ -74,11 +79,9 @@ class KingPig(Pig):
         self.image = pg.image.load("Sprites\\smgshnic.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"King pos={self.body.position}"
-
 
 class LittlePig(Pig):
+    """Маленькая свинка"""
     mass = 5
     life = 10
     size = 8
@@ -94,11 +97,9 @@ class LittlePig(Pig):
         self.image = pg.image.load("Sprites\\abramovets.png").convert_alpha()
         super().__init__(x, y, space, screen)
 
-    def __str__(self):
-        return f"Lit pos={self.body.position}"
-
 
 class DefaultPig2(Pig):
+    """Обычная свинья, но другой персонаж"""
     mass = 5
     life = 20
     size = 15
@@ -113,6 +114,3 @@ class DefaultPig2(Pig):
         self.shape.collision_type = 1
         self.image = pg.image.load("Sprites\\andrew.png").convert_alpha()
         super().__init__(x, y, space, screen)
-
-    def __str__(self):
-        return f"Def2 pos={self.body.position}"

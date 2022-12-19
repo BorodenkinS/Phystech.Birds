@@ -3,13 +3,12 @@ import pygame as pg
 from birds import *
 from pigs import *
 from obstructions import *
-import pymunk.pygame_util
-
-pymunk.pygame_util.positive_y_is_up = False
 
 
 class Level:
+    """Класс игрового уровня, содержащий конструкторы всех уровней"""
     def __init__(self, space, screen):
+        """Инициализация объекта уровня"""
         self.birds = []
         self.pigs = []
         self.beams = []
@@ -26,8 +25,11 @@ class Level:
         self.levels = [self.level1, self.level2, self.level3, self.level4, self.level5]
         self.sling = Sling(self.sc)
         self.sling.position = (120, 485)
+        self.background_surf = self.ground_surf = self.ground_body = self.ground_shape = None
+        self.right_wall_shape = self.right_wall_body = self.left_wall_shape = self.left_wall_body = None
 
     def level1(self):
+        """Конструктор 1 уровня"""
         self.new_level()
 
         self.background_surf = pg.image.load('Sprites\\bg 1 1200x600.png')
@@ -39,14 +41,6 @@ class Level:
         self.ground_shape.friction = 3
         self.ground_shape.elasticity = 0.8
         self.ground_shape.collision_type = 3
-
-        self.wall_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.wall_body.position = pm.Vec2d(1210, 600)
-        self.wall_shape = pm.Poly.create_box(self.wall_body, (20, 600))
-        self.wall_shape.friction = 3
-        self.wall_shape.elasticity = 0.8
-        self.wall_shape.collision_type = 3
-        self.space.add(self.wall_body, self.wall_shape)
 
         self.beams = [WoodBeam(1050, 520, False, self.space, self.sc),
                       WoodBeam(1000, 520, False, self.space, self.sc),
@@ -68,20 +62,12 @@ class Level:
                       RedBird(25, 555, self.space, self.sc)]
         self.number_of_birds = 4
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * self.number_of_birds
+                         + 100 * (self.number_of_birds-1)
 
     def level2(self):
+        """Конструктор 2 уровня"""
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 2 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -103,19 +89,12 @@ class Level:
                       RedBird(25, 555, self.space, self.sc)]
         self.number_of_birds = 4
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * self.number_of_birds
+                         + 100 * (self.number_of_birds-1)
 
     def level3(self):
+        """Конструктор 3 уровня"""
         self.new_level()
-        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
+        self.background_surf = pg.image.load('Sprites\\bg 3 1200x600.png')
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -144,19 +123,12 @@ class Level:
                       RedBird(130, 550, self.space, self.sc)]
         self.number_of_birds = 3
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * self.number_of_birds
+                         + 100 * (self.number_of_birds-1)
 
     def level4(self):
+        """Конструктор 4 уровня"""
         self.new_level()
-        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.jpg')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
+        self.background_surf = pg.image.load('Sprites\\bg 4 1200x600.png')
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -177,8 +149,7 @@ class Level:
                       WoodBeam(1110, 410, False, self.space, self.sc),
                       WoodBeam(1065, 355, True, self.space, self.sc),
                       GlassBeam(1095, 410, False, self.space, self.sc),
-                      GlassBeam(1035, 410, False, self.space, self.sc),
-                      ]
+                      GlassBeam(1035, 410, False, self.space, self.sc)]
 
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
@@ -190,19 +161,12 @@ class Level:
                       TriangleBird(20, 550, self.space, self.sc)]
         self.number_of_birds = 3
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * self.number_of_birds
+                         + 100 * (self.number_of_birds-1)
 
     def level5(self):
+        """Конструктор 5 уровня"""
         self.new_level()
         self.background_surf = pg.image.load('Sprites\\bg 5 1200x600.png')
-        self.ground_surf = pg.image.load('Sprites\\snow.png')
-        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
-        self.ground_body.position = pm.Vec2d(600, 585)
-        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
-        self.space.add(self.ground_body, self.ground_shape)
-        self.ground_shape.friction = 3
-        self.ground_shape.elasticity = 0.8
-        self.ground_shape.collision_type = 3
 
         self.beams = [WoodBeam(905, 520, False, self.space, self.sc),
                       WoodBeam(995, 520, False, self.space, self.sc),
@@ -216,8 +180,8 @@ class Level:
                       GlassBeam(920, 410, False, self.space, self.sc),
                       WoodBeam(905, 300, False, self.space, self.sc),
                       WoodBeam(995, 300, False, self.space, self.sc),
-                      GlassBeam(950, 245, True, self.space, self.sc),
-                      ]
+                      GlassBeam(950, 245, True, self.space, self.sc)]
+
         self.pigs = [DefaultPig(950, 445, self.space, self.sc),
                      DefaultPig(950, 555, self.space, self.sc),
                      DefaultPig2(950, 335, self.space, self.sc),
@@ -230,11 +194,49 @@ class Level:
                       RedBird(20, 555, self.space, self.sc)]
         self.number_of_birds = 3
         self.max_score = sum(beam.cost for beam in self.beams) + sum(pig.cost for pig in self.pigs) \
-                         + 100 * self.number_of_birds
+                         + 100 * (self.number_of_birds-1)
 
     def new_level(self):
-        if self.space.bodies:
-            for body in self.space.bodies:
-                self.space.remove(body)
+        """Создание объектов, общих для всех уровней, а также очистка экрана pygame и поля pymunk при создании уровня"""
+        for beam in self.beams:
+            beam.remove()
+        for pig in self.pigs:
+            pig.remove()
+        for bird in self.birds:
+            bird.remove()
+        if self.ground_body:
+            self.space.remove(self.left_wall_body, self.left_wall_shape)
+            self.space.remove(self.right_wall_body, self.right_wall_shape)
+            self.space.remove(self.ground_body, self.ground_shape)
+
         self.score = 0
         self.max_score = 0
+        self.ground_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.ground_body.position = pm.Vec2d(600, 585)
+        self.ground_shape = pm.Poly.create_box(self.ground_body, (1200, 30))
+        self.space.add(self.ground_body, self.ground_shape)
+        self.ground_shape.friction = 3
+        self.ground_shape.elasticity = 0.8
+        self.ground_shape.collision_type = 3
+
+        self.right_wall_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.right_wall_body.position = pm.Vec2d(1210, 300)
+        self.right_wall_shape = pm.Poly.create_box(self.right_wall_body, (20, 600))
+        self.right_wall_shape.friction = 0.1
+        self.right_wall_shape.elasticity = 1
+        self.right_wall_shape.collision_type = 3
+        self.space.add(self.right_wall_body, self.right_wall_shape)
+
+        self.left_wall_body = pm.Body(1, 1, pm.Body.KINEMATIC)
+        self.left_wall_body.position = pm.Vec2d(-10, 300)
+        self.left_wall_shape = pm.Poly.create_box(self.left_wall_body, (20, 600))
+        self.left_wall_shape.friction = 0.1
+        self.left_wall_shape.elasticity = 1
+        self.left_wall_shape.collision_type = 3
+        self.space.add(self.left_wall_body, self.left_wall_shape)
+
+        self.ground_surf = pg.image.load('Sprites\\snow.png')
+
+        self.mouse_is_up = True
+        self.flying_bird = None
+        self.sling.reset()
