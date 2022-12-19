@@ -60,13 +60,13 @@ class Beam:
         self.space.remove(self.body, self.shape)
 
     def velocity_checker(self):
-        return abs(self.body.velocity) > 0.1 or abs(self.body.angular_velocity) > 0.1
+        return abs(self.body.velocity) > 1 or abs(self.body.angular_velocity) > 1
 
     def recalculate_state(self):
         if not self.velocity_checker():
             self.body.velocity = pm.Vec2d(0, 0)
             self.body.angular_velocity = 0
-            self.body.angle = 0
+
         life_factor = self.life > 0
         if not life_factor:
             self.remove()
